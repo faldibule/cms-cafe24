@@ -1,0 +1,52 @@
+Catatan
+1. Site setting tambah logo, sosmed, nomor nomor telepon, email. Khusus sosmed ada switch
+
+2. Banner menu di master data
+
+3. Pindah site setting ke menu baru, yang berisi banner utams, second banner, gambar footer
+
+4. Tambah menu di dalam produk untuk memasukan produk yg sedang promo 
+
+5. Tambah diskon per kategori
+
+6. Tampilan diskon diubah sesuai web zenitha lama
+
+7. Attribute bisa ditambah
+
+8. Menu diskon ongkir dibawah diskon pelanggan
+
+9. Form diskon ongkir
+    - minimal belanja
+    - nominal diskon
+    - kapan sampe kapan
+
+10. Role : super Admin : akses semua 
+           Admin Keuangan : akses melihat laporan dan edit status pembayaran
+           admin staff : semua kecuali yang berhubungan dengan uang
+
+
+
+a.	Super Admin : Dapat mengakses semua fitur di cms
+b.	Admin Keuangan : Cek transferan dana, akses mengubah status pembayaran dari pending menjadi berhasil (validasi pembayaran secara manual jika ternyata pembayaran yang telah dilakukan user tidak terdeteksi oleh sistem moota). Akses melihat laporan penjualan dan laporan penjualan per konsumen.
+c.	Admin staff : daftarkan staff baru, Akses melihat laporan penjualan dan laporan penjualan per konsumen.
+
+
+2022 - 04 - 08
+1. nunggu API laporan penjualan, API setting status produk (done)
+2. Artikel setting (done)
+3. tampilan laporan penjualan (done)
+4. error kalau resi ga ada (done)
+
+
+
+2022 - 04 - 12
+1. warna lihat alamat dan kategori diganti warna biru agar terlihat bisa di klik (done)
+2. banner footer jgn dikotak gambarnya (done)
+3. refresh kategori setelah akses sub kategori (done)
+4. hapus deskripsi di order (done)
+5. tambah kode invoice di order (done)
+
+
+1. pending (menunggu pembayaran)
+2. paid off (menunggu konfirmasi admin)
+3. sent 
