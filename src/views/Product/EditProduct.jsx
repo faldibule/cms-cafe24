@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, FormGroup, FormControlLabel, Switch, Paper, Chip, Button, FormHelperText, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
+import { Box, FormGroup, FormControlLabel, Switch, Paper, Chip, Button, FormHelperText, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Stack } from '@mui/material'
 import {  blue } from '@mui/material/colors';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { kategoriParent } from '../../Recoil/Kategori';
@@ -627,6 +627,106 @@ const EditProduct = () => {
         })
     }
 
+    // Mass Edit
+  const [massEdit, setMassEdit] = useState({
+    sku: '',
+    harga: '',
+    stock: '',
+    image: {
+      image_file: '',
+      image_preview: '',
+    }
+  })
+
+  const massEditChange = (e) => {
+    setMassEdit({
+      ...massEdit,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const massImageChange = (e) => {
+    let image_preview = URL.createObjectURL(e.target.files[0])
+    let image_file = e.target.files[0];
+    setMassEdit({
+      ...massEdit,
+      image: {
+        image_file,
+        image_preview
+      }
+    })
+  }
+
+  const [massCheck, setMassCheck] = useState(false)
+
+  const massCheckChange = (event) => {
+    setMassCheck(event.target.checked)
+  };
+
+  const massEditClicked = () => {
+    if(variantCount.filter(filter => filter === 'i').length > 1){
+      let temp = {}
+      if(typeof variantSub[`variantSub-${variantCount.indexOf('i')}`] !== 'undefined'){
+        if(typeof variantSub[`variantSub-${variantCount.indexOf('i', variantCount.indexOf('i') + 1)}`] !== 'undefined'){
+
+          variantSub[`variantSub-${variantCount.indexOf('i')}`].map((val1, index3) => {
+            return variantSub[`variantSub-${variantCount.indexOf('i', variantCount.indexOf('i') + 1)}`].map((val2, index4) => {
+              temp = {
+                ...temp,
+                [`form-${index3}${index4}`]:{
+                  ...variantForm2[`form-${index3}${index4}`],
+                    sku: massEdit.sku,
+                    harga: massEdit.harga,
+                    stok: massEdit.stock,
+                    image_file: massEdit.image.image_file,
+                    image_preview: massEdit.image.image_preview
+                }
+              }
+
+            })
+
+          })
+
+        }
+      }
+        setVariantForm2({
+          ...temp
+        })
+    }
+
+    if(variantCount.filter(filter => filter === 'i').length === 1){
+      let temp = {}
+      variantCount.map((count, i) => {
+        if(count === 'i' && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
+
+          if(variantCount.filter(filter => filter === 'i').length === 1 && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
+
+            return variantSub[`variantSub-${i}`].map((x, index2) => {
+              temp = {
+                ...temp,
+                [`form-${index2}`]:{
+                  ...variantForm[`form-${index2}`],
+                    sku: massEdit.sku,
+                    harga: massEdit.harga,
+                    stok: massEdit.stock,
+                    image_file: massEdit.image.image_file,
+                    image_preview: massEdit.image.image_preview
+                }
+              }
+
+
+            })
+          }
+        }
+      })
+      setVariantForm({
+        ...temp,
+      })
+    }
+  }
+
+
+
     const onSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
@@ -1100,6 +1200,83 @@ const EditProduct = () => {
                         <CircularProgress size={30}/>
                     </Box>
                 }
+
+                {/* Mass Edit */}
+            {variantCount.length !== 0 && variantCount.some(s => s === 'i') && JSON.stringify(variantSub) !== '{}' &&
+              <Stack direction="row" mt={3}  gap={5}>
+                {/* Switch */}
+                <FormGroup 
+                    sx={{ ml: 2 }}>
+                      <FormControlLabel 
+                        control={
+                          <Switch
+                              name='massCheck'
+                              checked={massCheck}
+                              onChange={massCheckChange}
+                              inputProps={{ 'aria-label': 'controlled' }}
+                          />
+                        } 
+                        label="Isi Massal" 
+                      />
+                  </FormGroup>
+
+                {/* SKU */}
+                <TextField
+                    value={massEdit.sku}
+                    name={`sku`} 
+                    onChange={massEditChange} 
+                    size='small' 
+                    variant="outlined"
+                    label="SKU"
+                    disabled={!massCheck}
+                />
+
+                {/* Harga */}
+                <TextField
+                    value={massEdit.harga}
+                    name={`harga`} 
+                    onChange={massEditChange} 
+                    size='small' 
+                    variant="outlined"
+                    label="Harga"
+                    disabled={!massCheck}
+                />
+
+                {/* Stock */}
+                <TextField
+                    required 
+                    value={massEdit.stock}
+                    name={`stock`} 
+                    onChange={massEditChange} 
+                    size='small' 
+                    variant="outlined"
+                    label="Stock"
+                    disabled={!massCheck}
+                />
+
+                {/* Image */}
+                <Box>
+                <label htmlFor={`image-mass`} style={{ cursor: 'pointer' }} >     
+                    {massEdit.image.image_preview !== '' ?
+                      <img style={{ display: 'block', height: '50px', objectFit: 'cover', objectPosition: 'center' }} src={massEdit.image.image_preview} alt={`image-mass`} />
+
+                      :
+
+                      <AddPhotoAlternateIcon />
+                    }
+                  </label>
+                  <input 
+                    id={`image-mass`} 
+                    type="file" 
+                    onChange={massImageChange} 
+                    style={{ display: 'none' }}
+                  />
+                </Box>
+
+                {/* Button */}
+                <Button disabled={!massCheck} variant="contained" onClick={massEditClicked}>Terapkan</Button>
+              </Stack>
+            }
 
                 {/* Table */}
                 {variantCount.length !== 0 && variantCount.some(s => s === 'i') && JSON.stringify(variantSub) !== '{}' &&

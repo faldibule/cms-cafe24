@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, FormGroup, FormControlLabel, Switch, Paper, Chip, Button, FormHelperText, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
+import { Box, FormGroup, FormControlLabel, Switch, Paper, Chip, Button, FormHelperText, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Stack } from '@mui/material'
 import {  blue } from '@mui/material/colors';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { kategoriParent } from '../../Recoil/Kategori';
@@ -371,6 +371,105 @@ const AddProduct = () => {
   const discountChange = (event) => {
     setDiscountCheck(event.target.checked)
   };
+
+  // Mass Edit
+  const [massEdit, setMassEdit] = useState({
+    sku: '',
+    harga: '',
+    stock: '',
+    image: {
+      image_file: '',
+      image_preview: '',
+    }
+  })
+
+  const massEditChange = (e) => {
+    setMassEdit({
+      ...massEdit,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const massImageChange = (e) => {
+    let image_preview = URL.createObjectURL(e.target.files[0])
+    let image_file = e.target.files[0];
+    setMassEdit({
+      ...massEdit,
+      image: {
+        image_file,
+        image_preview
+      }
+    })
+  }
+
+  const [massCheck, setMassCheck] = useState(false)
+
+  const massCheckChange = (event) => {
+    setMassCheck(event.target.checked)
+  };
+
+  const massEditClicked = () => {
+    if(variantCount.filter(filter => filter === 'i').length > 1){
+      let temp = {}
+      if(typeof variantSub[`variantSub-${variantCount.indexOf('i')}`] !== 'undefined'){
+        if(typeof variantSub[`variantSub-${variantCount.indexOf('i', variantCount.indexOf('i') + 1)}`] !== 'undefined'){
+
+          variantSub[`variantSub-${variantCount.indexOf('i')}`].map((val1, index3) => {
+            return variantSub[`variantSub-${variantCount.indexOf('i', variantCount.indexOf('i') + 1)}`].map((val2, index4) => {
+              temp = {
+                ...temp,
+                [`form-${index3}${index4}`]:{
+                  ...variantForm2[`form-${index3}${index4}`],
+                    sku: massEdit.sku,
+                    harga: massEdit.harga,
+                    stok: massEdit.stock,
+                    image_file: massEdit.image.image_file,
+                    image_preview: massEdit.image.image_preview
+                }
+              }
+
+            })
+
+          })
+
+        }
+      }
+        setVariantForm2({
+          ...temp
+        })
+    }
+
+    if(variantCount.filter(filter => filter === 'i').length === 1){
+      let temp = {}
+      variantCount.map((count, i) => {
+        if(count === 'i' && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
+
+          if(variantCount.filter(filter => filter === 'i').length === 1 && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
+
+            return variantSub[`variantSub-${i}`].map((x, index2) => {
+              temp = {
+                ...temp,
+                [`form-${index2}`]:{
+                  ...variantForm[`form-${index2}`],
+                    sku: massEdit.sku,
+                    harga: massEdit.harga,
+                    stok: massEdit.stock,
+                    image_file: massEdit.image.image_file,
+                    image_preview: massEdit.image.image_preview
+                }
+              }
+
+
+            })
+          }
+        }
+      })
+      setVariantForm({
+        ...temp,
+      })
+    }
+  }
+
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -833,6 +932,83 @@ const AddProduct = () => {
                   </Box>
             }
 
+            {/* Mass Edit */}
+            {variantCount.length !== 0 && variantCount.some(s => s === 'i') && JSON.stringify(variantSub) !== '{}' &&
+              <Stack direction="row" mt={3}  gap={5}>
+                {/* Switch */}
+                <FormGroup 
+                    sx={{ ml: 2 }}>
+                      <FormControlLabel 
+                        control={
+                          <Switch
+                              name='massCheck'
+                              checked={massCheck}
+                              onChange={massCheckChange}
+                              inputProps={{ 'aria-label': 'controlled' }}
+                          />
+                        } 
+                        label="Isi Massal" 
+                      />
+                  </FormGroup>
+
+                {/* SKU */}
+                <TextField
+                    value={massEdit.sku}
+                    name={`sku`} 
+                    onChange={massEditChange} 
+                    size='small' 
+                    variant="outlined"
+                    label="SKU"
+                    disabled={!massCheck}
+                />
+
+                {/* Harga */}
+                <TextField
+                    value={massEdit.harga}
+                    name={`harga`} 
+                    onChange={massEditChange} 
+                    size='small' 
+                    variant="outlined"
+                    label="Harga"
+                    disabled={!massCheck}
+                />
+
+                {/* Stock */}
+                <TextField
+                    required 
+                    value={massEdit.stock}
+                    name={`stock`} 
+                    onChange={massEditChange} 
+                    size='small' 
+                    variant="outlined"
+                    label="Stock"
+                    disabled={!massCheck}
+                />
+
+                {/* Image */}
+                <Box>
+                <label htmlFor={`image-mass`} style={{ cursor: 'pointer' }} >     
+                    {massEdit.image.image_preview !== '' ?
+                      <img style={{ display: 'block', height: '50px', objectFit: 'cover', objectPosition: 'center' }} src={massEdit.image.image_preview} alt={`image-mass`} />
+
+                      :
+
+                      <AddPhotoAlternateIcon />
+                    }
+                  </label>
+                  <input 
+                    id={`image-mass`} 
+                    type="file" 
+                    onChange={massImageChange} 
+                    style={{ display: 'none' }}
+                  />
+                </Box>
+
+                {/* Button */}
+                <Button disabled={!massCheck} variant="contained" onClick={massEditClicked}>Terapkan</Button>
+              </Stack>
+            }
+
             {/* Table */}
             {variantCount.length !== 0 && variantCount.some(s => s === 'i') && JSON.stringify(variantSub) !== '{}' &&
             <TableContainer sx={{ mt: 1 }} component={Paper}>
@@ -852,125 +1028,126 @@ const AddProduct = () => {
                       </TableRow>
                   </TableHead>
                   <TableBody>
+
+                  {/* 1 Variant */}
                   {variantCount.map((count, i) => {
                     
-                    
-                    if(count === 'i' && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
-                      if(variantCount.filter(filter => filter === 'i').length === 1 && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
-                        return variantSub[`variantSub-${i}`].map((x, index2) => {
-                          if(typeof variantForm[`form-${index2}`] === 'undefined'){
-                            setVariantForm({
-                              ...variantForm,
-                              [`form-${index2}`]: {
-                                  sku: '',
-                                  harga: '',
-                                  stok: '0',
-                                  image_file: '',
-                                  image_preview: '',
-                                  status: 'active',
-                              }
-                            })
-                          }
-                          return (
-                            <TableRow key={index2}>
-                              <TableCell align="center">{x}</TableCell>
-                              <TableCell sx={{ maxWidth: 200 }} align="center">
-                                <TextField sx={{mt: 2}}
-                                    value={typeof variantForm[`form-${index2}`] === 'undefined' ? '' : variantForm[`form-${index2}`]['sku'] }
-                                    name={`sku`} 
-                                    onChange={(e) => variantFormChange(e, index2)} 
-                                    size='small' 
-                                    variant="outlined"
-                                    helperText={typeof errors[`combination.${index2}.sku`] !== 'undefined' ? errors[`combination.${index2}.sku`][0] : ''}
-                                    error={typeof errors[`combination.${index2}.sku`]!== 'undefined' ? true : false} 
-                                />
-                              </TableCell>
-                              <TableCell sx={{ maxWidth: 200 }} align="center">
-                                <TextField sx={{mt: 2}}
-                                    required
-                                    value={typeof variantForm[`form-${index2}`] === 'undefined' ? '' : variantForm[`form-${index2}`]['harga'] }
-                                    name={`harga`} 
-                                    onChange={(e) => variantFormChange(e, index2)} 
-                                    size='small' 
-                                    variant="outlined"
-                                    helperText={typeof errors[`combination.${index2}.price`] !== 'undefined' ? errors[`combination.${index2}.price`][0] : ''}
-                                    error={typeof errors[`combination.${index2}.price`]!== 'undefined' ? true : false}  
-                                />
-                              </TableCell>
-                              <TableCell sx={{ maxWidth: 200 }} align="center">
-                                <TextField sx={{mt: 2}}
-                                    required 
-                                    value={typeof variantForm[`form-${index2}`] === 'undefined' ? '' : variantForm[`form-${index2}`]['stok'] }
-                                    name={`stok`} 
-                                    onChange={(e) => variantFormChange(e, index2)} 
-                                    size='small' 
-                                    variant="outlined"
-                                    helperText={typeof errors[`combination.${index2}.stock`] !== 'undefined' ? errors[`combination.${index2}.stock`][0] : ''}
-                                    error={typeof errors[`combination.${index2}.stock`]!== 'undefined' ? true : false}  
-                                />
-                              </TableCell>
-                              <TableCell align="center">
-                                <label htmlFor={`image-variant-${index2}`} style={{ cursor: 'pointer' }} >
-                                  
-                                  {typeof variantForm[`form-${index2}`] === 'undefined' ? 
-                                    ''
-                                  :
-                                  variantForm[`form-${index2}`]['image_preview'] !== '' ?
-                                    <img style={{ display: 'block', height: '50px', objectFit: 'cover', objectPosition: 'center' }} src={variantForm[`form-${index2}`]['image_preview']} alt={`image-${index2}`} />
-
+                      if(count === 'i' && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
+                        if(variantCount.filter(filter => filter === 'i').length === 1 && typeof variantSub[`variantSub-${i}`] !== 'undefined'){
+                          return variantSub[`variantSub-${i}`].map((x, index2) => {
+                            if(typeof variantForm[`form-${index2}`] === 'undefined'){
+                              setVariantForm({
+                                ...variantForm,
+                                [`form-${index2}`]: {
+                                    sku: '',
+                                    harga: '',
+                                    stok: '0',
+                                    image_file: '',
+                                    image_preview: '',
+                                    status: 'active',
+                                }
+                              })
+                            }
+                            return (
+                              <TableRow key={index2}>
+                                <TableCell align="center">{x}</TableCell>
+                                <TableCell sx={{ maxWidth: 200 }} align="center">
+                                  <TextField sx={{mt: 2}}
+                                      value={typeof variantForm[`form-${index2}`] === 'undefined' ? '' : variantForm[`form-${index2}`]['sku'] }
+                                      name={`sku`} 
+                                      onChange={(e) => variantFormChange(e, index2)} 
+                                      size='small' 
+                                      variant="outlined"
+                                      helperText={typeof errors[`combination.${index2}.sku`] !== 'undefined' ? errors[`combination.${index2}.sku`][0] : ''}
+                                      error={typeof errors[`combination.${index2}.sku`]!== 'undefined' ? true : false} 
+                                  />
+                                </TableCell>
+                                <TableCell sx={{ maxWidth: 200 }} align="center">
+                                  <TextField sx={{mt: 2}}
+                                      required
+                                      value={typeof variantForm[`form-${index2}`] === 'undefined' ? '' : variantForm[`form-${index2}`]['harga'] }
+                                      name={`harga`} 
+                                      onChange={(e) => variantFormChange(e, index2)} 
+                                      size='small' 
+                                      variant="outlined"
+                                      helperText={typeof errors[`combination.${index2}.price`] !== 'undefined' ? errors[`combination.${index2}.price`][0] : ''}
+                                      error={typeof errors[`combination.${index2}.price`]!== 'undefined' ? true : false}  
+                                  />
+                                </TableCell>
+                                <TableCell sx={{ maxWidth: 200 }} align="center">
+                                  <TextField sx={{mt: 2}}
+                                      required 
+                                      value={typeof variantForm[`form-${index2}`] === 'undefined' ? '' : variantForm[`form-${index2}`]['stok'] }
+                                      name={`stok`} 
+                                      onChange={(e) => variantFormChange(e, index2)} 
+                                      size='small' 
+                                      variant="outlined"
+                                      helperText={typeof errors[`combination.${index2}.stock`] !== 'undefined' ? errors[`combination.${index2}.stock`][0] : ''}
+                                      error={typeof errors[`combination.${index2}.stock`]!== 'undefined' ? true : false}  
+                                  />
+                                </TableCell>
+                                <TableCell align="center">
+                                  <label htmlFor={`image-variant-${index2}`} style={{ cursor: 'pointer' }} >
+                                    
+                                    {typeof variantForm[`form-${index2}`] === 'undefined' ? 
+                                      ''
                                     :
+                                    variantForm[`form-${index2}`]['image_preview'] !== '' ?
+                                      <img style={{ display: 'block', height: '50px', objectFit: 'cover', objectPosition: 'center' }} src={variantForm[`form-${index2}`]['image_preview']} alt={`image-${index2}`} />
 
-                                    <AddPhotoAlternateIcon />
-                                  }
-                                </label>
-                                <input 
-                                  id={`image-variant-${index2}`} 
-                                  type="file" 
-                                  onChange={(e) => variantImageChange(e, index2) } 
-                                  style={{ display: 'none' }}
-                                />
+                                      :
+
+                                      <AddPhotoAlternateIcon />
+                                    }
+                                  </label>
+                                  <input 
+                                    id={`image-variant-${index2}`} 
+                                    type="file" 
+                                    onChange={(e) => variantImageChange(e, index2) } 
+                                    style={{ display: 'none' }}
+                                  />
+                                  
+                                </TableCell>
+                                <TableCell align="center">
+                                  <FormGroup sx={{ ml: 2 }}>
+                                      <FormControlLabel 
+                                      control={typeof variantForm[`form-${index2}`] === 'undefined' ? 
+                                          <Switch
+                                              name='status'
+                                              checked={true}
+                                              inputProps={{ 'aria-label': 'controlled' }}
+                                          />
+                                          :
+                                          <Switch
+                                              name='status'
+                                              checked={variantForm[`form-${index2}`]['status'] === 'not_active' ? false : true}
+                                              onChange={(e) => variantCheckChange(e, index2)}
+                                              inputProps={{ 'aria-label': 'controlled' }}
+                                          />
+                                      } 
+                                      label="" />
+                                  </FormGroup>
+                                </TableCell>
+                                <TableCell align="center">
+                                  <FormGroup sx={{ ml: 2 }}>
+                                      <FormControlLabel 
+                                      control={
+                                          <Switch
+                                              name='main'
+                                              checked={main === index2 ? true : false}
+                                              onChange={(e) => variantMainChange(e, index2)}
+                                              inputProps={{ 'aria-label': 'controlled' }}
+                                          />
+                                      } 
+                                      label="" />
+                                  </FormGroup>
+                                </TableCell>
                                 
-                              </TableCell>
-                              <TableCell align="center">
-                                <FormGroup sx={{ ml: 2 }}>
-                                    <FormControlLabel 
-                                    control={typeof variantForm[`form-${index2}`] === 'undefined' ? 
-                                        <Switch
-                                            name='status'
-                                            checked={true}
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                        />
-                                        :
-                                        <Switch
-                                            name='status'
-                                            checked={variantForm[`form-${index2}`]['status'] === 'not_active' ? false : true}
-                                            onChange={(e) => variantCheckChange(e, index2)}
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                        />
-                                    } 
-                                    label="" />
-                                </FormGroup>
-                              </TableCell>
-                              <TableCell align="center">
-                                <FormGroup sx={{ ml: 2 }}>
-                                    <FormControlLabel 
-                                    control={
-                                        <Switch
-                                            name='main'
-                                            checked={main === index2 ? true : false}
-                                            onChange={(e) => variantMainChange(e, index2)}
-                                            inputProps={{ 'aria-label': 'controlled' }}
-                                        />
-                                    } 
-                                    label="" />
-                                </FormGroup>
-                              </TableCell>
-                              
-                            </TableRow>
-                          )
-                        })
+                              </TableRow>
+                            )
+                          })
+                        }
                       }
-                    }
                   })
                   }
                   

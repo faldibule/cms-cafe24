@@ -511,7 +511,9 @@ const LaporanPenjualan = () => {
                 <Typography variant="h5">
                     Table 
                 </Typography>
-                <Box component="span" sx={{ display: 'block' }}> <Chip sx={{ cursor: 'pointer' }} onClick={() => exportTableToExcel("#table", `Laporan_Penjualan(${search.date[0]} s/d ${search.date[1]})`)} label='Export' color="primary" /> </Box>
+                {!empty && report.isComplete &&
+                    <Box component="span" sx={{ display: 'block' }}> <Chip sx={{ cursor: 'pointer' }} onClick={() => exportTableToExcel("#table", `Laporan_Penjualan(${search.date[0]} s/d ${search.date[1]})`)} label='Export' color="primary" /> </Box>
+                }
             </Box>
             <Box sx={{ display: 'flex', gap: 3 }} component="form" onSubmit={onSearch}>
                 {/* user */}
