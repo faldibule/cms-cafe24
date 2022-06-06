@@ -9,3 +9,13 @@ export const dataOrder = atom({
         isComplete: false,
     }
 })
+
+export const dataNotif = atom({
+    key: 'dataNotif',
+    default: {}
+})
+
+export const dataTransaksi = atom({
+    key: 'dataTransaksi',
+    default: []
+})

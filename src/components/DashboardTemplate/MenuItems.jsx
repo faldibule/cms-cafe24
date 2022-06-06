@@ -112,6 +112,10 @@ const appMenuItems = [
                 name: 'List Order',
                 link: '/order'
             },
+            {
+                name: 'Transaksi',
+                link: '/transaksi'
+            },
             
         ]
     },

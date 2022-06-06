@@ -15,7 +15,7 @@ import { alertState } from '../../Recoil/Alert';
 import AlertSuccess from '../../components/Utils/AlertSuccess';
 import axios from 'axios'
 import { API } from '../../Variable/API'
-import { dataOrder } from '../../Recoil/Order';
+import { dataOrder, dataNotif } from '../../Recoil/Order';
 import CurrencyFormat from 'react-currency-format';
 import moment from 'moment'
 import { confirmAlert } from 'react-confirm-alert'; // Import
@@ -410,7 +410,6 @@ const CollapseComponent = ({id, expanded}) => {
                                 <Grid item md={4} xs={6}>
                                     <img src={val.image} alt="tes" style={{ width: '100%' }} />
                                 </Grid>
-                                {console.log(data)}
                                 <Grid item md={6} xs={12}>
                                     <Typography sx={{ textAlign: { xs: 'center', md: 'left' } }} variant="body1">
                                        <b>{val.product_name}</b>
@@ -567,8 +566,9 @@ const CollapseComponent = ({id, expanded}) => {
                                             sx={{ ml: 1, mr: 2, cursor: 'pointer' }} />
                                     }
                                     <Chip label={label} color={color} />
-                                    <Chip label={'Edit'} onClick={() => navigate(`/order/edit_payment/${val.id}`)} sx={{ ml: 2, cursor: 'pointer' }} />
-                                    
+                                    {data.status === 'expired' &&
+                                        <Chip label={'Edit'} onClick={() => navigate(`/order/edit_payment/${val.id}`)} sx={{ ml: 2, cursor: 'pointer' }} />
+                                    }
                                 </ListItem>
                             </React.Fragment>
                             )
@@ -693,7 +693,7 @@ const CardComponent = ({val}) => {
                 subheader={
                     <Stack direction="row" spacing={2}>
                         <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
-                            <i>INV/{val.id}</i>
+                            <i>INV/{val.invoice_number}</i>
                         </Typography>
                         <Typography variant="subtitle1" sx={{ textAlign: 'center' }}>
                             <i>{moment(val.created_at.split(' ')[0]).format('ll')}</i>
@@ -774,7 +774,6 @@ const CardComponent = ({val}) => {
 const Order = () => {
 
     // state
-    const [notif, setNotifData] = useState({})
     const [open, setOpen] = useState(false)
     const [deleteLoading, setDeleteLoading] = useState('none')
     const [empty, setEmpty] = useState(false)
@@ -790,6 +789,7 @@ const Order = () => {
     const [isComplete, setIsComplete] = useState(false)
     
     // recoil
+    const [notif, setNotifData] = useRecoilState(dataNotif)
     const [pelanggan, setPelanggan] = useRecoilState(dataPelanggan)
     const [alert, setAlert] = useRecoilState(alertState)
     const [order, setOrder] = useRecoilState(dataOrder)

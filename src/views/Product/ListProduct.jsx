@@ -173,6 +173,7 @@ const ListProduct = () => {
                     isComplete: true
                 })
             }
+            console.log(res.data.data)
         })
         .catch(err => {
             err.response && console.log(err.response)

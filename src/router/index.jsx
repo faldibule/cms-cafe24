@@ -25,6 +25,7 @@ import FormEditAlamat from '../views/Pelanggan/Address/FormEditAlamat'
 import FormProfil from '../views/Profil/FormProfil'
 import ListProduct from '../views/Product/ListProduct'
 import Order from '../views/Order/Order'
+import Transaksi from '../views/Order/Transaksi'
 import FormEditStatus from '../views/Order/FormEditStatus'
 import Diskon from '../views/Pelanggan/Diskon/Diskon'
 import FormDiskon from '../views/Pelanggan/Diskon/FormDiskon'
@@ -60,6 +61,7 @@ import { useRecoilState } from 'recoil'
 import DetailUserAnda from '../views/Administrasi/DetailUserAnda'
 import FormUserAnda from '../views/Administrasi/FormUserAnda'
 import FormEditStatusPayment from '../views/Order/FormEditStatusPayment'
+import EditTransaksi from '../views/Order/EditTransaksi'
 
 function Router() {
     const [auth, setAuth] = useRecoilState(authentication)
@@ -725,6 +727,29 @@ function Router() {
                     } 
                 />
                 <Route 
+                    path="/transaksi"
+                    element={
+                        <Middleware.Authenticated>
+                            <DashboardTemplate
+                                render={<Transaksi />} 
+                                title="Transaksi"
+                            />
+                        </Middleware.Authenticated>
+                    } 
+                />
+                <Route 
+                    path="/transaksi/:id"
+                    element={
+                        <Middleware.Authenticated>
+                            <DashboardTemplate
+                                render={<EditTransaksi />} 
+                                title="Edit Status Transaksi"
+                            />
+                        </Middleware.Authenticated>
+                    } 
+                />
+
+                <Route 
                     path="/administrasi/report"
                     element={
                         <Middleware.Authenticated>
@@ -735,6 +760,7 @@ function Router() {
                         </Middleware.Authenticated>
                     } 
                 />
+
 
                 </>
                 }

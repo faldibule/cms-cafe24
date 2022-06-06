@@ -57,7 +57,7 @@ function Login() {
                 navigate('/dashboard')
             })
             .catch(err => {
-                // console.log(err)
+                console.log(err.response)
                 if(err.response){
                     setLoading(false)
                     setError({

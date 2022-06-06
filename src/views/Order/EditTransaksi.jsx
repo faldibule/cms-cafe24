@@ -5,12 +5,13 @@ import axios from 'axios';
 import { API } from '../../Variable/API';
 import { useNavigate } from 'react-router-dom'
 import { alertState } from '../../Recoil/Alert';
-import { dataOrder } from '../../Recoil/Order'
+import { dataOrder, dataTransaksi } from '../../Recoil/Order'
 import { useRecoilState } from 'recoil'
 
 const selects = ['pending', 'paid_off', 'expired', 'process']
-const FormEditStatusPayment = () => {
-    const id = window.location.pathname.split('/')[3]
+const EditTransaksi = () => {
+    const id = window.location.pathname.split('/')[2]
+    console.log(id);
     const navigate = useNavigate()
     const [form, setForm] = useState({
         status: null
@@ -22,6 +23,7 @@ const FormEditStatusPayment = () => {
     //recoil
     const [alert, setAlert] = useRecoilState(alertState)
     const [order, setOrder] = useRecoilState(dataOrder)
+    const [transaksi, setTransaksi] = useRecoilState(dataTransaksi)
 
     const setStatusOrder = async () => {
         setIsComplete(false)
@@ -83,7 +85,8 @@ const FormEditStatusPayment = () => {
                 ...order,
                 data: []
             })
-            navigate('/order')
+            setTransaksi([])
+            navigate('/transaksi')
         })
         .catch(err => {
             err.response && console.log(err.response)
@@ -142,4 +145,4 @@ const FormEditStatusPayment = () => {
     );
 };
 
-export default FormEditStatusPayment;
+export default EditTransaksi;
