@@ -905,7 +905,7 @@ const AddProduct = () => {
                                 </Box>
                               )}
                               >
-                              {allAttribute.filter(p => p.variant_name === variantParent[`variantParent-${i}`])[0].child.map(item => (
+                              {allAttribute.filter(p => p.variant_name == variantParent[`variantParent-${i}`])[0].child.map(item => (
                                 <MenuItem key={item.id} value={item.variant_option_name}>
                                     {item.variant_option_name}
                                 </MenuItem>
