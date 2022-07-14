@@ -132,9 +132,7 @@ const AddProduct = () => {
                       ...p,
                       child: [...child.data.data]
                   })
-                  if(i === parentVariant.length - 1){
-                      setAllAttribute([...x])
-                  }
+                  setAllAttribute([...allAttribute, ...x])
               })
               .catch(err => {
                   // if(err.response) console.log(err.response)
@@ -880,7 +878,7 @@ const AddProduct = () => {
                         </FormControl>
                         
                         {/* Sub Variant */}
-                        {typeof variantParent[`variantParent-${i}`] !== 'undefined' &&
+                        {typeof variantParent[`variantParent-${i}`] !== 'undefined' && allAttribute.length === parentVariant.length &&
                         <FormControl 
                         sx={{
                             ml: 2,
@@ -890,7 +888,7 @@ const AddProduct = () => {
                         variant="standard"
                         
                         >
-                          
+                          {console.log(allAttribute)}
                           <Select
                               value={typeof variantSub[`variantSub-${i}`] === 'undefined' ? [] : variantSub[`variantSub-${i}`]}
                               name={`variantSub-${i}`}
@@ -905,7 +903,7 @@ const AddProduct = () => {
                                 </Box>
                               )}
                               >
-                              {allAttribute.filter(p => p.variant_name == variantParent[`variantParent-${i}`])[0].child.map(item => (
+                              {allAttribute.find(p => p.variant_name == variantParent[`variantParent-${i}`]).child.map(item => (
                                 <MenuItem key={item.id} value={item.variant_option_name}>
                                     {item.variant_option_name}
                                 </MenuItem>
@@ -926,7 +924,7 @@ const AddProduct = () => {
               })
             }
             </Box>
-            {allAttribute.length === 0 &&
+            {allAttribute.length === 0 && allAttribute.length !== parentVariant.length &&
                   <Box component='div' sx={{width: '50%', mt:2 }} >
                     <CircularProgress size={30}/>
                   </Box>

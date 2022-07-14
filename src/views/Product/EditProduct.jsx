@@ -389,9 +389,7 @@ const EditProduct = () => {
                         ...p,
                         child: [...child.data.data]
                     })
-                    if(i === parentVariant.length - 1){
-                        setAllAttribute([...x])
-                    }
+                    setAllAttribute([...allAttribute, ...x])
                 })
                 .catch(err => {
                     if(err.response) console.log(err.response)
@@ -1149,7 +1147,8 @@ const EditProduct = () => {
                             </FormControl>
                             
                             {/* Sub Variant */}
-                            {typeof variantParent[`variantParent-${i}`] !== 'undefined' &&
+                            {/* {console.log(allAttribute)} */}
+                            {typeof variantParent[`variantParent-${i}`] !== 'undefined' && allAttribute.length === parentVariant.length &&
                             <FormControl 
                             sx={{
                                 ml: 2,
@@ -1195,7 +1194,7 @@ const EditProduct = () => {
                 })
                 }
                 </Box>
-                {!isComplete &&
+                {!isComplete && allAttribute.length !== parentVariant.length &&
                     <Box component='div' sx={{width: '50%', mt:2 }} >
                         <CircularProgress size={30}/>
                     </Box>
