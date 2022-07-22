@@ -225,6 +225,7 @@ const FormEditPelanggan = () => {
     const [deleteLoading, setDeleteLoading] = useState('none')
     const [form, setForm] = useState({
         number_indonesia: '+62',
+        email: null,
         name: null,
         phone_number: null,
         status: null,
@@ -299,6 +300,7 @@ const FormEditPelanggan = () => {
             setForm({
                 ...form,
                 name: res.data.data.name,
+                email: res.data.data.email,
                 phone_number: res.data.data.phone_number,
                 status: res.data.data.status,
                 role: res.data.data.role
@@ -461,6 +463,22 @@ const FormEditPelanggan = () => {
                         onChange={onChange}
                         value={form.name}
                         required 
+                        error={false}
+                    />
+                    }
+
+                    {/* email */}
+                    {form.email !== null &&
+                    <TextField
+                        sx={{ mt: 2 }}
+                        variant="outlined"
+                        size='small'
+                        fullWidth
+                        label={`Email`}
+                        name='email'
+                        value={form.email}
+                        required 
+                        disabled
                         error={false}
                     />
                     }

@@ -132,14 +132,14 @@ const ListProduct = () => {
                         })
                     })
                     .catch(err => {
-                        err.response && console.log(err.response)
+                        // err.response && console.log(err.response)
                         setDeleteLoading('none')
                     })
                 }
               },
               {
                 label: 'Tidak',
-                onClick: () => console.log('Click No')
+                // onClick: () => console.log('Click No')
               }
             ]
           });
@@ -173,10 +173,10 @@ const ListProduct = () => {
                     isComplete: true
                 })
             }
-            console.log(res.data.data)
+            // console.log(res.data.data)
         })
         .catch(err => {
-            err.response && console.log(err.response)
+            // err.response && console.log(err.response)
         })
     }
 
@@ -207,14 +207,14 @@ const ListProduct = () => {
                 }
             })
             .catch(err => {
-                err.response && console.log(err.response)
+                // err.response && console.log(err.response)
             })
         }
     }
 
     const onSearch = (e) => {
         e.preventDefault()
-        console.log(search)
+        // console.log(search)
         setProduct({
             ...product,
             isComplete: false

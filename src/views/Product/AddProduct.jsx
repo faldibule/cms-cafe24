@@ -617,7 +617,7 @@ const AddProduct = () => {
     
 
 
-    // console.log(Object.fromEntries(formData))
+    console.log(Object.fromEntries(formData))
     // setLoading(false)
     // setAlert({
     //   message: 'Produk Berhasil Ditambah',
@@ -631,7 +631,7 @@ const AddProduct = () => {
       }
     })
     .then(res => {
-      // console.log(res.data)
+      console.log(res.data)
       setLoading(false)
       setProduct({
         ...product,
@@ -652,7 +652,7 @@ const AddProduct = () => {
     .catch(err => {
       if(err.response){
         setErrors(err.response.data.errors)
-        // console.log(err.response)
+        console.log(err.response)
         if(typeof err.response?.data?.errors?.product_image !== 'undefined'){
           setAlertErrorData({
             display: true,

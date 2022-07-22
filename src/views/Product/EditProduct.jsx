@@ -878,7 +878,7 @@ const EditProduct = () => {
         
 
 
-        console.log(Object.fromEntries(formData))
+        // console.log(Object.fromEntries(formData))
         // setLoading(false)
         // setAlert({
         //   message: 'Produk Berhasil Ditambah',
@@ -892,7 +892,7 @@ const EditProduct = () => {
           }
         })
         .then(res => {
-          console.log(res.data)
+        //   console.log(res.data)
           setLoading(false)
           setProduct({
             ...product,
@@ -913,7 +913,7 @@ const EditProduct = () => {
         .catch(err => {
           if(err.response){
             setErrors(err.response.data.errors)
-            console.log(err.response)
+            // console.log(err.response)
           }
           window.scrollTo({
             top: 0, 
