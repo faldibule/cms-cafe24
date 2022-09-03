@@ -76,7 +76,6 @@ const DetailResi = ({ open, handleClose, courier, noResi }) => {
         if(mounted && open){
             getDetailResi().catch(err => {
                 if(err.response){
-                    // console.log(err.response)
                 }
             })
         }
@@ -355,7 +354,6 @@ const CollapseComponent = ({id, expanded}) => {
                     data: []
                 })
             }catch(e){
-                console.log(e.response)
             }
         }
 
@@ -373,7 +371,7 @@ const CollapseComponent = ({id, expanded}) => {
               },
               {
                 label: 'Tidak',
-                onClick: () => console.log('Click No')
+                onClick: () => 'd'
               }
             ]
           });
@@ -385,7 +383,6 @@ const CollapseComponent = ({id, expanded}) => {
             setDetail()
                 .catch(err => {
                     if(err.response){
-                        // console.log(err.response)
                     }
                 })
         }
@@ -555,7 +552,6 @@ const CollapseComponent = ({id, expanded}) => {
                                     />
                                     {i === 1 && val.status === 'pending' && 
                                         <Chip 
-                                            onDelete={() => console.log('')} 
                                             deleteIcon={loading ? 
                                                 <CircularProgress size={15} color={'primary'} /> 
                                                 : 
@@ -753,9 +749,11 @@ const CardComponent = ({val}) => {
                 <IconButton onClick={() => navigate(`/order/edit_resi/${val.id}`)} sx={{ marginLeft: 'auto'}}>
                     <Chip label='Update Resi' />
                 </IconButton>
+                {val.status !== "pending" &&
                 <IconButton aria-label="Edit" onClick={() => navigate(`/order/edit_status/${val.id}`)}>
                     <Chip label='Update Status Order' />
                 </IconButton>
+                }
                 
                 <ExpandMore
                     expand={expanded}
@@ -829,7 +827,6 @@ const Order = () => {
             }
         })
         .catch(err => {
-            // err.response && console.log(err.response)
         })
     }
 
@@ -870,7 +867,6 @@ const Order = () => {
                 })
             }
         } catch (error) {
-            // console.log(error)
         }
         
     }
@@ -905,7 +901,6 @@ const Order = () => {
             }
         })
         .then(res => {
-            console.log(res.data.data)
             if(res.data.data.data.length === 0){
                 setEmpty(true)
                 setOrder({
@@ -925,7 +920,6 @@ const Order = () => {
             }
         })
         .catch(err => {
-            // err.response && console.log(err.response)
         })
     }
 
@@ -936,7 +930,6 @@ const Order = () => {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
         })
-        // console.log(res.data.data)
         setNotifData(res.data.data)
     }
 
@@ -952,7 +945,6 @@ const Order = () => {
                 }
             })
             .then(res => {
-                // console.log(res.data)
                 if(res.data.data.data.length === 0){
                     setEmpty(true)
                 }else{
@@ -967,13 +959,11 @@ const Order = () => {
 
             })
             .catch(err => {
-                // err.response && console.log(err.response)
             })
         }
     }
 
     const onSearch = (e) => {
-        // console.log(search)
         e.preventDefault()
         handleClose()
         setAllOrder()
@@ -999,7 +989,6 @@ const Order = () => {
             }
         })
         .then(res => {
-            console.log(res.data.data)
             if(res.data.data.data.length === 0){
                 setEmpty(true)
                 setOrder({
@@ -1019,7 +1008,6 @@ const Order = () => {
             }
         })
         .catch(err => {
-            err.response && console.log(err.response)
         })
     }
 
@@ -1027,7 +1015,6 @@ const Order = () => {
         let mounted = true
         if(order.data.length === 0 && mounted && !empty){
             setAllOrder()
-            setNotif().catch(err => console.log(err.response))
         }
 
         return () => mounted = false
@@ -1142,7 +1129,6 @@ const Order = () => {
                             freeSolo={true}
                             value={pelanggan.data.filter(val => val.id === search.user_id)[0]}
                             onChange={(event, newValue) => {
-                                // console.log(newValue)
                                 // select
                                 newValue !== null && setSearch({
                                     ...search,

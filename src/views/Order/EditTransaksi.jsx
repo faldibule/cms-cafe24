@@ -10,10 +10,9 @@ import { useRecoilState } from 'recoil'
 import CurrencyFormat from 'react-currency-format';
 import moment from 'moment'
 
-const selects = ['pending', 'paid_off', 'expired', 'process']
+const selects = ['pending', 'paid_off', 'expired', 'process', 'canceled']
 const EditTransaksi = () => {
     const id = window.location.pathname.split('/')[2]
-    // console.log(id);
     const navigate = useNavigate()
     const [form, setForm] = useState({
         status: null
@@ -44,14 +43,12 @@ const EditTransaksi = () => {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`
                 }
             })
-            // console.log(res)
             setForm({
                 status: res.data.data.status
             })
             return res
             
         } catch (err) {
-            err.response && console.log(err.response)
         }
     }
 
@@ -62,12 +59,10 @@ const EditTransaksi = () => {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`
                 }
             })
-            // console.log(res)
             setDetail(res.data.data)
             return res
             
         } catch (err) {
-            err.response && console.log(err.response)
         }
     }
 
@@ -104,7 +99,6 @@ const EditTransaksi = () => {
             }
         })
         .then(res => {
-            console.log(res)
             setLoading(false)
             setAlert({
                 display: true,
@@ -124,7 +118,6 @@ const EditTransaksi = () => {
             navigate('/transaksi')
         })
         .catch(err => {
-            err.response && console.log(err.response)
             setLoading(false)
         })
     }
@@ -213,7 +206,7 @@ const EditTransaksi = () => {
                                 {detail.unique_code}
                             </Typography>
                         </Stack>
-                        <Stack direction="row" gap={3} mt={1}>
+                        <Stack direction="row" gap={3} my={1}>
                             <Typography sx={{ width: '35%' }}>
                                 Total
                             </Typography>
@@ -272,9 +265,9 @@ const EditTransaksi = () => {
                     </DialogTitle>
                     <DialogContent>
                         <Box sx={{ display: 'flex', justifyContent: 'center',   }} >
-                            
+                            {detail.evidence !== null &&
                             <Box component="img" sx={{ height: { xs: '400px', md: '300px', lg: '400px' }, }} src={detail.evidence.evidence_url} alt="Bukti TF"/>
-                            
+                            }
                         </Box>
                         <br />
                         <br />

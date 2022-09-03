@@ -55,7 +55,6 @@ const Transaksi = () => {
             }
         })
         .catch(err => {
-            err.response && console.log(err.response)
         })
     }
 
@@ -88,7 +87,6 @@ const Transaksi = () => {
                 })
             }
         } catch (error) {
-            // console.log(error)
         }
         
     }
@@ -142,7 +140,6 @@ const Transaksi = () => {
                                 freeSolo={true}
                                 value={pelanggan.data.filter(val => val.id === search.user_id)[0]}
                                 onChange={(event, newValue) => {
-                                    // console.log(newValue)
                                     // select
                                     if(newValue === null){
                                         setKeyword('')
