@@ -1015,6 +1015,7 @@ const Order = () => {
         let mounted = true
         if(order.data.length === 0 && mounted && !empty){
             setAllOrder()
+            setNotif().catch(err => console.log(err.response))
         }
 
         return () => mounted = false
