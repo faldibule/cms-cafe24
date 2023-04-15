@@ -145,6 +145,7 @@ const AddProduct = () => {
 
       if(mounted && allAttribute.length === 0){
           setAttr()
+          // console.log('get variant')
       }
       return () => mounted = false
   }, [])
@@ -617,7 +618,7 @@ const AddProduct = () => {
     
 
 
-    console.log(Object.fromEntries(formData))
+    // console.log(Object.fromEntries(formData))
     // setLoading(false)
     // setAlert({
     //   message: 'Produk Berhasil Ditambah',
@@ -631,7 +632,7 @@ const AddProduct = () => {
       }
     })
     .then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       setLoading(false)
       setProduct({
         ...product,
@@ -652,7 +653,7 @@ const AddProduct = () => {
     .catch(err => {
       if(err.response){
         setErrors(err.response.data.errors)
-        console.log(err.response)
+        // console.log(err.response)
         if(typeof err.response?.data?.errors?.product_image !== 'undefined'){
           setAlertErrorData({
             display: true,
@@ -831,7 +832,7 @@ const AddProduct = () => {
             <Typography variant="h6" color="initial">
               Atribut Produk (Maximum 2 Variant)
             </Typography>
-            {allAttribute.length !== 0 &&
+            {allAttribute.length !== 0 && allAttribute.length === parentVariant.length &&
               <Button disabled={variantCount.filter(x => x === 'i').length === 2} sx={{ borderRadius: 25, p: 1, minWidth: 50 }} variant="contained" onClick={() => setVariantCount([...variantCount, 'i'])}>
                 <AddBoxIcon /> Tambah Variant
               </Button>
@@ -878,7 +879,7 @@ const AddProduct = () => {
                         </FormControl>
                         
                         {/* Sub Variant */}
-                        {typeof variantParent[`variantParent-${i}`] !== 'undefined' && allAttribute.length === parentVariant.length &&
+                        {typeof variantParent[`variantParent-${i}`] !== 'undefined' && 
                         <FormControl 
                         sx={{
                             ml: 2,
@@ -886,9 +887,8 @@ const AddProduct = () => {
                             minWidth: 400
                           }}
                         variant="standard"
-                        
+
                         >
-                          {console.log(allAttribute)}
                           <Select
                               value={typeof variantSub[`variantSub-${i}`] === 'undefined' ? [] : variantSub[`variantSub-${i}`]}
                               name={`variantSub-${i}`}
@@ -1373,19 +1373,17 @@ const AddProduct = () => {
                   </Select>
                   <FormHelperText sx={{ml: 2}}></FormHelperText>
               </FormControl>
-              {beratUkuran.berat !== null && 
-                <TextField sx={{ml: 3, mt: 2, width: '45.5%'}}
-                  required 
-                  size='small' 
-                  name="berat" 
-                  value={form.berat} 
-                  onChange={onChange} 
-                  label="Berat" variant="outlined"
-                  helperText={typeof errors?.product_weight !== 'undefined' ? <span style={{color: 'red'}}>{errors.product_weight[0]}</span> : ''}
-                  error={typeof errors?.product_weight !== 'undefined' ? true : false}  
-                />
-                  
-              }
+              <TextField sx={{ml: 3, mt: 2, width: '45.5%'}}
+                required 
+                disabled={beratUkuran.berat == null}
+                size='small' 
+                name="berat" 
+                value={form.berat} 
+                onChange={onChange} 
+                label="Berat" variant="outlined"
+                helperText={typeof errors?.product_weight !== 'undefined' ? <span style={{color: 'red'}}>{errors.product_weight[0]}</span> : ''}
+                error={typeof errors?.product_weight !== 'undefined' ? true : false}  
+              />
             </Box>
             
             {/* Ukuran */}

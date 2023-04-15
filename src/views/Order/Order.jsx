@@ -492,10 +492,10 @@ const CollapseComponent = ({id, expanded}) => {
                         <Divider sx={{ width: '100%', mt: 3 }} />
                         <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1, gap: 2 }}>
                             <Typography variant="p" sx={{ textAlign: 'center', fontSize: '1rem' }}>
-                                Total Harga
+                                Total Harga + Ongkos kirim
                             </Typography>
                             <CurrencyFormat 
-                                value={data.payment_method === 'po' ? data.payment[0].total + data.payment[1].total : data.payment[0].total}
+                                value={data.payment_method === 'po' ? data.payment[0].total + data.payment[1].total + data.shipping_cost : data.payment[0].total + data.shipping_cost }
                                 displayType={'text'} 
                                 thousandSeparator={"."}
                                 decimalSeparator={","} 
@@ -734,6 +734,12 @@ const CardComponent = ({val}) => {
                         <Typography variant="p" sx={{ textAlign: 'center', fontSize: '1.1rem' }}>
                             <b>{val.user.name}</b>
                         </Typography>
+                        {!!val.parent ? 
+                            <Typography variant="p" sx={{ textAlign: 'center', fontSize: '0.9rem' }}>
+                                <b>({val.parent?.name})</b>
+                            </Typography>
+                        : null
+                        }
                     </Box>
                     
 
@@ -1015,7 +1021,7 @@ const Order = () => {
         let mounted = true
         if(order.data.length === 0 && mounted && !empty){
             setAllOrder()
-            setNotif().catch(err => console.log(err.response))
+            setNotif()
         }
 
         return () => mounted = false

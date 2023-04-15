@@ -155,7 +155,6 @@ const EditProduct = () => {
         })
         setVariantForm(variantTemp)
         setMain(main)
-        console.log(variantTemp)
     }
 
     const getData1Variant = (res) => {
@@ -207,7 +206,6 @@ const EditProduct = () => {
         }
         setVariantForm2(variantTemp)
         setMain2(main)
-        console.log(variantTemp)
     }
 
     const getData2Variant = (res) => {
@@ -243,7 +241,6 @@ const EditProduct = () => {
             }
         })
         .then(res => {
-            console.log(res.data)
             // image produk
             let tempImage = {}
             res.data.data.product_image.map((val, i) => {
@@ -334,7 +331,7 @@ const EditProduct = () => {
 
         })
         .catch(err => {
-            err.response && console.log(err.response)
+            // err.response && console.log(err.response)
         })
         
     }
@@ -392,7 +389,7 @@ const EditProduct = () => {
                     setAllAttribute([...allAttribute, ...x])
                 })
                 .catch(err => {
-                    if(err.response) console.log(err.response)
+                    // if(err.response) console.log(err.response)
                 })
             })
     }
@@ -416,7 +413,7 @@ const EditProduct = () => {
               setSize([...res.data.data])
         })
         .catch(err => {
-            err.response && console.log(err.response)
+            // err.response && console.log(err.response)
         })
     }
     
@@ -493,7 +490,7 @@ const EditProduct = () => {
             
         })
         .catch(err => {
-            if(err.response) console.log(err.response)
+            // if(err.response) console.log(err.response)
         })
         
     }
@@ -522,7 +519,6 @@ const EditProduct = () => {
                 onClick: () => {
                 let x = [...variantCount]
                 delete x[index]
-                console.log(x)
                 setVariantCount([...x])
 
                 }
@@ -1100,7 +1096,7 @@ const EditProduct = () => {
                 <Typography variant="h6" color="initial">
                 Atribut Produk (Maximum 2 Variant)
                 </Typography>
-                {allAttribute.length !== 0 &&
+                {allAttribute.length !== 0 && allAttribute.length === parentVariant.length &&
                 <Button disabled={variantCount.filter(x => x === 'i').length === 2} sx={{ borderRadius: 25, p: 1, minWidth: 50 }} variant="contained" onClick={() => setVariantCount([...variantCount, 'i'])}>
                     <AddBoxIcon /> Tambah Variant
                 </Button>
@@ -1147,8 +1143,7 @@ const EditProduct = () => {
                             </FormControl>
                             
                             {/* Sub Variant */}
-                            {/* {console.log(allAttribute)} */}
-                            {typeof variantParent[`variantParent-${i}`] !== 'undefined' && allAttribute.length === parentVariant.length &&
+                            {typeof variantParent[`variantParent-${i}`] !== 'undefined' &&
                             <FormControl 
                             sx={{
                                 ml: 2,
@@ -1173,7 +1168,7 @@ const EditProduct = () => {
                                     </Box>
                                 )}
                                 >
-                                {allAttribute.filter(p => p.variant_name == variantParent[`variantParent-${i}`])[0].child.map(item => (
+                                {allAttribute.find(p => p.variant_name == variantParent[`variantParent-${i}`]).child.map(item => (
                                     <MenuItem key={item.id} value={item.variant_option_name}>
                                         {item.variant_option_name}
                                     </MenuItem>
@@ -1792,7 +1787,7 @@ const EditProduct = () => {
                             inputProps={{ 'aria-label': 'controlled' }}
                         />
                       } 
-                      label="Aktifkan Pre-Order Jika Diperlukan" 
+                      label="Aktifkan Jika Diperlukan" 
                     />
                 </FormGroup>
               </Box>
