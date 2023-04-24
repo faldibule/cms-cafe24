@@ -184,7 +184,7 @@ const Kategori = () => {
                                         <TableRow key={`${val.id}-${i}`}>
                                             
                                             <TableCell>{i + 1}</TableCell>
-                                            <TableCell align="center" sx={{ cursor: 'pointer' }} onClick={() => history(`/master-data/sub_kategori/${val.id}`)} >{val.category_name}</TableCell>
+                                            <TableCell align="center" sx={{ cursor: 'pointer', color: 'blue' }} onClick={() => history(`/master-data/sub_kategori/${val.id}`)} >{val.category_name}</TableCell>
                                             <TableCell align="center">
                                                 <img src={val.image_url} style={{ height: '60px', objectFit: 'cover', objectPosition: 'center' }} />
                                             </TableCell>

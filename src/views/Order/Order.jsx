@@ -32,6 +32,158 @@ import jsPDF from 'jspdf';
 import { formatRelativeWithOptions } from 'date-fns/esm/fp';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
+const DetailPerProduct = ({ val, i }) => {
+    const [expanded, setExpanded] = useState(true)
+    return(
+        <Grid key={i} container sx={{ justifyContent: 'center', mt: 3 }} spacing={1}>
+            {/* <Grid item md={4} xs={6}>
+                <img src={val.image} alt="tes" style={{ width: '100%' }} />
+            </Grid> */}
+            <Grid item md={12} xs={12} px={2}>
+                <Stack gap={2}>
+                    <Card sx={{ p: 1, cursor: 'pointer' }} onClick={() => setExpanded(!expanded)}>
+                        <Stack direction='row' justifyContent='space-between' alignItems='center' px={2}>
+                            <img src={val.image} alt="tes" style={{ height: 80 }}/>
+                            <Stack>
+                                <Typography sx={{ textAlign: { xs: 'center', md: 'left' } }} variant="body1">
+                                    <b>{val.product_name}</b>
+                                </Typography>
+                                <CurrencyFormat 
+                                    value={val.price}
+                                    displayType={'text'} 
+                                    thousandSeparator={"."}
+                                    decimalSeparator={","} 
+                                    prefix={'Rp.'} 
+                                    renderText={value => 
+                                        <Typography variant="span" disabled sx={{ display: 'block', color: grey[600], fontSize: '0.8em', textAlign: { xs: 'center', md: 'left' } }}>
+                                            {val.quantity} x {value}
+                                        </Typography> 
+                                    } 
+                                />
+                            </Stack>
+                        </Stack>
+                    </Card>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                        <Stack gap={1}>
+                            {/* Note */}
+                            <Card>
+                                <Stack sx={{ p: 1 }}>
+                                    <Typography variant="subtitle2" fontWeight='bold'>
+                                        Note :
+                                    </Typography>
+                                    <Typography variant="subtitle2" sx={{ wordWrap: 'break-word', textAlign: { xs: 'center', md: 'left' }, fontStyle: 'italic', fontSize: '0.7rem', maxWidth: { md: 600, xs: 300 } }}>
+                                        {val.notes}
+                                    </Typography>
+                                </Stack>
+                            </Card>
+
+                            {/* Total 1 Barang */}
+                            <CurrencyFormat 
+                                value={val.price}
+                                displayType={'text'} 
+                                thousandSeparator={"."}
+                                decimalSeparator={","} 
+                                prefix={'Rp.'} 
+                                renderText={value =>
+                                    <Card sx={{ p: 0.3, px: 1  }}>
+                                        <Stack direction='row' justifyContent='space-between'>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                                                Harga 1 Barang
+                                            </Typography>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                                                {value}
+                                            </Typography>
+                                        </Stack> 
+                                    </Card>
+                                } 
+                            />
+
+                            {/* Discount product */}
+                            <CurrencyFormat 
+                                value={val.discount_product}
+                                displayType={'text'} 
+                                thousandSeparator={"."}
+                                decimalSeparator={","} 
+                                prefix={'Rp.'} 
+                                renderText={value =>
+                                    <Card sx={{ p: 0.3, px: 1  }}>
+                                        <Stack direction='row' justifyContent='space-between'>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                                                Discount Product
+                                            </Typography>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                                                -{value}
+                                            </Typography>
+                                        </Stack> 
+                                    </Card>
+                                } 
+                            />
+                            {/* Discount Group */}
+                            <CurrencyFormat 
+                                value={val.discount_group}
+                                displayType={'text'} 
+                                thousandSeparator={"."}
+                                decimalSeparator={","} 
+                                prefix={'Rp.'} 
+                                renderText={value => 
+                                    <Card sx={{ p: 0.3, px: 1  }}>
+                                        <Stack direction='row' justifyContent='space-between'>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                                                Discount Group
+                                            </Typography>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                                                -{value}
+                                            </Typography>
+                                        </Stack> 
+                                    </Card>
+                                } 
+                            />
+                            {/* Discount customer */}
+                            <CurrencyFormat 
+                                value={val.discount_customer}
+                                displayType={'text'} 
+                                thousandSeparator={"."}
+                                decimalSeparator={","} 
+                                prefix={'Rp.'} 
+                                renderText={value => 
+                                    <Card sx={{ p: 0.3, px: 1  }}>
+                                        <Stack direction='row' justifyContent='space-between'>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                                                Discount Customer
+                                            </Typography>
+                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                                                -{value}
+                                            </Typography>
+                                        </Stack> 
+                                    </Card>
+                                } 
+                            />
+                            <Divider sx={{ width: '100%' }} />
+                            <Typography sx={{ textAlign: 'right', fontSize: '0.8rem' }} variant="body2">
+                                Sub Total
+                            </Typography>
+                            <CurrencyFormat 
+                                value={(val.price - val.discount_product - val.discount_group - val.discount_customer) * val.quantity}
+                                displayType={'text'} 
+                                thousandSeparator={"."}
+                                decimalSeparator={","} 
+                                prefix={'Rp.'} 
+                                renderText={value => 
+                                    <Typography sx={{ textAlign: 'right' }} variant="body1">
+                                        <b>{value}</b> 
+                                    </Typography>
+                                } 
+                            />
+                        </Stack>
+                    </Collapse>
+                </Stack>
+                
+                
+            </Grid>
+        </Grid>
+    )
+}
+
 const statusSelect = ["pending", "paid_off", "expired", "sent", "canceled", "finish"]
 
 const ExpandMore = styled((props) => {
@@ -398,110 +550,165 @@ const CollapseComponent = ({id, expanded}) => {
             <CardContent>
                 <SuratJalan setIsClick={setIsClick} isClick={isClick} data={data} />
                 <Typography variant="body1" sx={{ mr: 1, mb: 2 }}><i>Detail Order</i></Typography>
-                <Stack direction={{ xs: 'column', md: 'row' }} alignItems={{ xs: 'center' }} divider={<Divider orientation="vertical" flexItem sx={{ backgroundColor: 'blue' }} />}>
+                <Stack direction={{ xs: 'column', md: 'row' }} divider={<Divider orientation="vertical" flexItem sx={{ backgroundColor: 'blue' }} />}>
 
                     {/* product */}
                     <Box component="div" sx={{ minWidth: '50%' }}>
                         {data.transaction_product.map((val, i) => (
-                            <Grid key={i} container sx={{ justifyContent: 'center', mt: 3 }} spacing={1}>
-                                <Grid item md={4} xs={6}>
-                                    <img src={val.image} alt="tes" style={{ width: '100%' }} />
-                                </Grid>
-                                <Grid item md={6} xs={12}>
-                                    <Typography sx={{ textAlign: { xs: 'center', md: 'left' } }} variant="body1">
-                                       <b>{val.product_name}</b>
-                                    </Typography>
-                                    <CurrencyFormat 
-                                        value={val.price}
-                                        displayType={'text'} 
-                                        thousandSeparator={"."}
-                                        decimalSeparator={","} 
-                                        prefix={'Rp.'} 
-                                        renderText={value => 
-                                            <Typography variant="span" disabled sx={{ display: 'block', color: grey[400], fontSize: '0.8em', textAlign: { xs: 'center', md: 'left' } }}>
-                                                {val.quantity} barang x {value}
-                                            </Typography> 
-                                        } 
-                                    />
-                                    <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                                       Note : <br /> <i>{val.notes}</i> 
-                                    </Typography>
+                            <DetailPerProduct key={i} val={val} i={i} />
+                            // <Grid key={i} container sx={{ justifyContent: 'center', mt: 3 }} spacing={1}>
+                            //     {/* <Grid item md={4} xs={6}>
+                            //         <img src={val.image} alt="tes" style={{ width: '100%' }} />
+                            //     </Grid> */}
+                            //     <Grid item md={12} xs={12} px={2}>
+                            //         <Stack gap={2}>
+                            //             <Card sx={{ p: 1 }}>
+                            //                 <Stack direction='row' justifyContent='space-between' alignItems='center' px={2}>
+                            //                     <img src={val.image} alt="tes" style={{ height: 80 }}/>
+                            //                     <Stack>
+                            //                         <Typography sx={{ textAlign: { xs: 'center', md: 'left' } }} variant="body1">
+                            //                             <b>{val.product_name}</b>
+                            //                         </Typography>
+                            //                         <CurrencyFormat 
+                            //                             value={val.price}
+                            //                             displayType={'text'} 
+                            //                             thousandSeparator={"."}
+                            //                             decimalSeparator={","} 
+                            //                             prefix={'Rp.'} 
+                            //                             renderText={value => 
+                            //                                 <Typography variant="span" disabled sx={{ display: 'block', color: grey[600], fontSize: '0.8em', textAlign: { xs: 'center', md: 'left' } }}>
+                            //                                     {val.quantity} x {value}
+                            //                                 </Typography> 
+                            //                             } 
+                            //                         />
+                            //                     </Stack>
+                            //                 </Stack>
+                            //             </Card>
 
-                                    <Box sx={{ mt: 3 }}>
-                                        
-                                    {/* Discount product */}
-                                    <CurrencyFormat 
-                                        value={val.discount_product}
-                                        displayType={'text'} 
-                                        thousandSeparator={"."}
-                                        decimalSeparator={","} 
-                                        prefix={'Rp.'} 
-                                        renderText={value => 
-                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                                                Discount Product : <b>{value}</b> 
-                                            </Typography>
-                                        } 
-                                    />
-                                    {/* Discount Group */}
-                                    <CurrencyFormat 
-                                        value={val.discount_group}
-                                        displayType={'text'} 
-                                        thousandSeparator={"."}
-                                        decimalSeparator={","} 
-                                        prefix={'Rp.'} 
-                                        renderText={value => 
-                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                                                Discount Group : <b>{value}</b> 
-                                            </Typography>
-                                        } 
-                                    />
-                                    {/* Discount customer */}
-                                    <CurrencyFormat 
-                                        value={val.discount_customer}
-                                        displayType={'text'} 
-                                        thousandSeparator={"."}
-                                        decimalSeparator={","} 
-                                        prefix={'Rp.'} 
-                                        renderText={value => 
-                                            <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                                                Discount Customer : <b>{value}</b> 
-                                            </Typography>
-                                        } 
-                                    />
-                                    </Box>
-                                    <Typography sx={{ mt: 2, textAlign: { xs: 'center', md: 'left' } }} variant="subtitle2">
-                                       Sub Total
-                                    </Typography>
-                                    <CurrencyFormat 
-                                        value={(val.price - val.discount_product - val.discount_group - val.discount_customer) * val.quantity}
-                                        displayType={'text'} 
-                                        thousandSeparator={"."}
-                                        decimalSeparator={","} 
-                                        prefix={'Rp.'} 
-                                        renderText={value => 
-                                            <Typography sx={{ textAlign: { xs: 'center', md: 'left' } }} variant="body1">
-                                                <b>{value}</b> 
-                                            </Typography>
-                                        } 
-                                    />
+                            //             {/* Note */}
+                            //             <Card>
+                            //                 <Stack sx={{ p: 1 }}>
+                            //                     <Typography variant="subtitle2" fontWeight='bold'>
+                            //                         Note :
+                            //                     </Typography>
+                            //                     <Typography variant="subtitle2" sx={{ wordWrap: 'break-word', textAlign: { xs: 'center', md: 'left' }, fontStyle: 'italic', fontSize: '0.7rem', maxWidth: { md: 600, xs: 300 } }}>
+                            //                         {val.notes}
+                            //                     </Typography>
+                            //                 </Stack>
+                            //             </Card>
+
+                            //             {/* Discount product */}
+                            //             <CurrencyFormat 
+                            //                 value={val.discount_product}
+                            //                 displayType={'text'} 
+                            //                 thousandSeparator={"."}
+                            //                 decimalSeparator={","} 
+                            //                 prefix={'Rp.'} 
+                            //                 renderText={value =>
+                            //                     <Card sx={{ p: 0.3, px: 1  }}>
+                            //                         <Stack direction='row' justifyContent='space-between'>
+                            //                             <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                            //                                 Discount Product
+                            //                             </Typography>
+                            //                             <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                            //                                 {value}
+                            //                             </Typography>
+                            //                         </Stack> 
+                            //                     </Card>
+                            //                 } 
+                            //             />
+                            //             {/* Discount Group */}
+                            //             <CurrencyFormat 
+                            //                 value={val.discount_group}
+                            //                 displayType={'text'} 
+                            //                 thousandSeparator={"."}
+                            //                 decimalSeparator={","} 
+                            //                 prefix={'Rp.'} 
+                            //                 renderText={value => 
+                            //                     <Card sx={{ p: 0.3, px: 1  }}>
+                            //                         <Stack direction='row' justifyContent='space-between'>
+                            //                             <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                            //                                 Discount Group
+                            //                             </Typography>
+                            //                             <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                            //                                 {value}
+                            //                             </Typography>
+                            //                         </Stack> 
+                            //                     </Card>
+                            //                 } 
+                            //             />
+                            //             {/* Discount customer */}
+                            //             <CurrencyFormat 
+                            //                 value={val.discount_customer}
+                            //                 displayType={'text'} 
+                            //                 thousandSeparator={"."}
+                            //                 decimalSeparator={","} 
+                            //                 prefix={'Rp.'} 
+                            //                 renderText={value => 
+                            //                     <Card sx={{ p: 0.3, px: 1  }}>
+                            //                         <Stack direction='row' justifyContent='space-between'>
+                            //                             <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontSize: '0.8rem' }}>
+                            //                                 Discount Customer
+                            //                             </Typography>
+                            //                             <Typography variant="subtitle2" sx={{ textAlign: { xs: 'center', md: 'left' }, fontWeight: 'bold' }}>
+                            //                                 {value}
+                            //                             </Typography>
+                            //                         </Stack> 
+                            //                     </Card>
+                            //                 } 
+                            //             />
+                            //         </Stack>
+                            //         <Divider sx={{ width: '100%', mt: 3 }} />
+                            //         <Typography sx={{ mt: 2, textAlign: 'right', fontSize: '0.8rem' }} variant="body2">
+                            //            Sub Total
+                            //         </Typography>
+                            //         <CurrencyFormat 
+                            //             value={(val.price - val.discount_product - val.discount_group - val.discount_customer) * val.quantity}
+                            //             displayType={'text'} 
+                            //             thousandSeparator={"."}
+                            //             decimalSeparator={","} 
+                            //             prefix={'Rp.'} 
+                            //             renderText={value => 
+                            //                 <Typography sx={{ textAlign: 'right' }} variant="body1">
+                            //                     <b>{value}</b> 
+                            //                 </Typography>
+                            //             } 
+                            //         />
                                     
-                                </Grid>
+                            //     </Grid>
 
-                            </Grid>
+                            // </Grid>
                         ))}
                         <Divider sx={{ width: '100%', mt: 3 }} />
                         <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1, gap: 2 }}>
-                            <Typography variant="p" sx={{ textAlign: 'center', fontSize: '1rem' }}>
-                                Total Harga + Ongkos kirim
+                            <Typography variant="p" sx={{ textAlign: 'center', fontSize: '0.8rem' }}>
+                                Biaya Ongkir
                             </Typography>
                             <CurrencyFormat 
-                                value={data.payment_method === 'po' ? data.payment[0].total + data.payment[1].total + data.shipping_cost : data.payment[0].total + data.shipping_cost }
+                                value={data.shipping_cost}
                                 displayType={'text'} 
                                 thousandSeparator={"."}
                                 decimalSeparator={","} 
                                 prefix={'Rp.'} 
                                 renderText={value => 
-                                    <Typography variant="p" sx={{ textAlign: 'center', fontSize: '1.1rem' }}>
+                                    <Typography variant="p" sx={{ textAlign: 'center', fontSize: '0.8rem' }}>
+                                        <b>{value}</b>
+                                    </Typography>
+                                } 
+                            />
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1, gap: 2 }}>
+                            <Typography variant="p" sx={{ textAlign: 'center', fontSize: '1rem', fontWeight: 'bold' }}>
+                                Total Harga
+                            </Typography>
+                            <CurrencyFormat 
+                                value={data.payment_method === 'po' ? data.payment[0].total + data.payment[1].total : data.payment[0].total }
+                                displayType={'text'} 
+                                thousandSeparator={"."}
+                                decimalSeparator={","} 
+                                prefix={'Rp.'} 
+                                renderText={value => 
+                                    <Typography variant="p" sx={{ textAlign: 'center', fontSize: '1.1rem', color: 'red' }}>
                                         <b>{value}</b>
                                     </Typography>
                                 } 
@@ -684,7 +891,7 @@ const CardComponent = ({val}) => {
     };
 
     return (
-        <Card sx={{ width: '100%', border: 1, borderColor: 'primary.main', m: 2, borderRadius: 5 }}>
+        <Card sx={{ width: '100%', border: 1, borderColor: 'primary.main', m: 2, borderRadius: 3 }}>
             <CardHeader 
                 subheader={
                     <Stack direction="row" spacing={2}>
@@ -748,8 +955,8 @@ const CardComponent = ({val}) => {
             <Divider />
             <CardActions>
                 {val.other_product !== 0 &&
-                <IconButton sx={{ mr: 'auto'}}>
-                    <Chip onClick={handleExpandClick} variant="outlined" color="primary" label={`+${val.other_product} produk lainnya`} />
+                <IconButton sx={{ mr: 'auto'}} onClick={handleExpandClick}>
+                    <Chip variant="outlined" color="primary" label={`+${val.other_product} produk lainnya`} />
                 </IconButton>
                 }
                 <IconButton onClick={() => navigate(`/order/edit_resi/${val.id}`)} sx={{ marginLeft: 'auto'}}>
