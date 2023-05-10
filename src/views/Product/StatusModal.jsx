@@ -274,7 +274,7 @@ const StatusModal = (props) => {
             }
 
             // preorder
-            if(res.data.data.preorder === 1){
+            if(res.data.data.preorder == 1){
                 setCheck(true)
                 setSatuanPreorder(res.data.data.duration_unit)
                 temp.preorder = res.data.data.duration
@@ -643,8 +643,8 @@ const StatusModal = (props) => {
         }
 
         //pre order
-        formData.append('preorder', form.check ? 1 : 0)
-        if(form.check){
+        formData.append('preorder', check ? 1 : 0)
+        if(check){
             formData.append('duration', form.preorder)
             formData.append('duration_unit', satuanPreorder)
         }
