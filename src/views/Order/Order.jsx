@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography, CircularProgress, Grid, Card, CardContent, CardActions, IconButton, Collapse, Stack, CardHeader, Divider, Chip, List, ListItem, ListItemText, ListItemAvatar, Avatar, TextField, FormGroup, FormControlLabel, Switch, Stepper, StepLabel, StepContent, Step, FormControl, InputLabel, MenuItem, Select, Pagination, Autocomplete  } from '@mui/material'
+import { Box, Badge, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography, CircularProgress, Grid, Card, CardContent, CardActions, IconButton, Collapse, Stack, CardHeader, Divider, Chip, List, ListItem, ListItemText, ListItemAvatar, Avatar, TextField, FormGroup, FormControlLabel, Switch, Stepper, StepLabel, StepContent, Step, FormControl, InputLabel, MenuItem, Select, Pagination, Autocomplete, CardActionArea  } from '@mui/material'
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { DateRangePicker, LocalizationProvider } from '@mui/lab';
 import { blue, green, yellow, grey } from '@mui/material/colors'
@@ -31,6 +31,7 @@ import { dataPelanggan } from '../../Recoil/PelangganRecoil';
 import jsPDF from 'jspdf';
 import { formatRelativeWithOptions } from 'date-fns/esm/fp';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
+import { ChevronRightRounded, CloseRounded } from '@mui/icons-material';
 
 const DetailPerProduct = ({ val, i }) => {
     const [expanded, setExpanded] = useState(true)
@@ -163,7 +164,7 @@ const DetailPerProduct = ({ val, i }) => {
                                 Sub Total
                             </Typography>
                             <CurrencyFormat 
-                                value={(val.price - val.discount_product - val.discount_group - val.discount_customer) * val.quantity}
+                                value={((val.price - val.discount_product) * val.quantity) - val.discount_group - val.discount_customer}
                                 displayType={'text'} 
                                 thousandSeparator={"."}
                                 decimalSeparator={","} 
@@ -449,6 +450,121 @@ const SuratJalan = ({ data, isClick, setIsClick }) => {
     )
 }
 
+const PaymentMethod = ({ id, openPaymentMethod, setOpenPaymentMethod, setAlert, setOrder, order }) => {
+    const [loading, setLoading] = useState(false)
+    const [paymentId, setPaymentId] = useState('')
+    const triggerAsync = async (id, payment_method_id) => {
+        setPaymentId(payment_method_id)
+        setLoading(true)
+        // setTimeout(() => {
+        //     setPaymentId('')
+        //     setLoading(false)
+        //     setOpenPaymentMethod(false)
+        // }, 1000);
+        try{
+            const res = await axios.patch(`${API}transaction/payment/second_payment_po/${id}`, {}, {
+                params: {
+                    payment_method_id,
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+            })
+            setAlert({
+                message: 'Berhasil Mengirim Notifikasi',
+                display: true
+            })
+            setTimeout(() => {
+                setAlert({
+                    message: '',
+                    display: false
+                })
+            }, 3000)
+            setOrder({
+                ...order,
+                data: []
+            })
+        }catch(err){
+            // console.log(err.response)
+        }finally {
+            setPaymentId('')
+            setLoading(false)
+        }
+    }
+    const getPaymentMethod = async () => {
+        try {
+            const res = await axios.get(`${API}moota/payment_method`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                }
+            })
+            return res.data.data
+        } catch (err) {
+            // console.log(err)
+        }
+    }
+    const [mootaPayData, setMootaPayData] = useState([])
+    const [loadingMoota, setLoadingMoota] = useState(true)
+    useEffect(() => {
+        let mounted = true
+        getPaymentMethod().then(res => {
+            if(mounted){
+                setMootaPayData(res)
+                setLoadingMoota(!loadingMoota)
+            }
+        })
+    }, [id])
+    return (
+        <Dialog open={openPaymentMethod} onClose={() => setOpenPaymentMethod(false)} maxWidth="xs" fullWidth>
+            <DialogTitle sx={{ p: 0 }}>
+                     <Stack direction="row" alignItems="center" justifyContent="space-between" py={1.5} pl={2} pr={1}>
+                        <Typography fontWeight="bold">Pilih Metode Pembayaran</Typography>
+                        <IconButton onClick={() => setOpenPaymentMethod(false)}>
+                           <CloseRounded fontSize="small" />
+                        </IconButton>
+                     </Stack>
+            </DialogTitle>
+            <DialogContent dividers sx={{ p: 0 }}>
+                {mootaPayData?.length > 0 && mootaPayData?.map((value, index) => {
+                    return (
+                        <Stack pl={1.5} key={index}>
+                            <CardActionArea onClick={() => triggerAsync(id, value.payment_method_id)}>
+                                <Stack direction="row" alignItems="center" py={1} pr={2}>
+                                    <img
+                                        src={value.icon}
+                                        alt="icon"
+                                        width={50}
+                                        style={{
+                                            aspectRatio: "3 / 2",
+                                            objectFit: "contain",
+                                        }}
+                                    />
+                                    <Stack px={1}>
+                                        <Typography variant="caption" noWrap>
+                                            {value.payment_method_type === "va_maybank" ? "Virtual Account Maybank" : value.name}
+                                        </Typography>
+                                    </Stack>
+                                    {loading && paymentId == value.payment_method_id ? 
+                                    <CircularProgress size={15} color="action" sx={{ ml: "auto" }} />
+                                    :
+                                    <ChevronRightRounded fontSize="small" color="action" sx={{ ml: "auto" }} />
+                                    }
+                                </Stack>
+                            </CardActionArea>
+                        {/* {index + 1 < list.payment_method[row].length && <Divider />} */}
+                        </Stack>
+                    )
+                })}
+                {loadingMoota &&
+                <Stack alignItems="center" justifyContent="center" height="60vh">
+                    <CircularProgress />
+                </Stack>
+                }
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 const CollapseComponent = ({id, expanded}) => {
 
     const [loading, setLoading] = useState(false)
@@ -482,68 +598,18 @@ const CollapseComponent = ({id, expanded}) => {
         setOpen(true)
     }
 
-    const triggerPreorder = (id) => {
-        const triggerAsync = async (id) => {
-            try{
-                const res = await axios.patch(`${API}transaction/payment/second_payment_po/${id}`, {}, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('authToken')}`
-                    }
-                })
-                setLoading(false)
-                setAlert({
-                    message: 'Berhasil Mengirim Notifikasi',
-                    display: true
-                })
-                setTimeout(() => {
-                    setAlert({
-                        message: '',
-                        display: false
-                    })
-                }, 3000)
-                setOrder({
-                    ...order,
-                    data: []
-                })
-            }catch(e){
-            }
-        }
-
-        confirmAlert({
-            title: 'Kirim notifikasi untuk melakukan pembayaran ke 2',
-            message: 'Yakin Ingin Melakukan Ini ?',
-            buttons: [
-              {
-                label: 'Ya',
-                onClick: () => {
-                    setLoading(true)
-                    triggerAsync(id)
-                   
-                }
-              },
-              {
-                label: 'Tidak',
-                onClick: () => 'd'
-              }
-            ]
-          });
-    }
-
+    const [openPaymentMethod, setOpenPaymentMethod] = useState(false)
+    
     useEffect(() => {
         let mounted = true
         if(mounted && expanded){
-            setDetail()
-                .catch(err => {
-                    if(err.response){
-                    }
-                })
+            Promise.all([setDetail()])
         }
 
         return () => mounted = false
 
 
     }, [expanded])
-
     return (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
             {isComplete && 
@@ -758,15 +824,25 @@ const CollapseComponent = ({id, expanded}) => {
                                         secondary={val.paid_off_time !== null && val.status === 'paid_off' && `Dibayarkan Tanggal ${moment(val.paid_off_time).format('ll')} Pukul ${moment(val.paid_off_time).format('HH:mm:ss')}`}
                                     />
                                     {i === 1 && val.status === 'pending' && 
-                                        <Chip 
-                                            deleteIcon={loading ? 
-                                                <CircularProgress size={15} color={'primary'} /> 
-                                                : 
-                                                <CircleNotificationsIcon />
-                                            } 
-                                            label={'Kirim Notifikasi'} 
-                                            onClick={() => triggerPreorder(val.id)} 
-                                            sx={{ ml: 1, mr: 2, cursor: 'pointer' }} />
+                                        <>
+                                            <Chip 
+                                                deleteIcon={loading ? 
+                                                    <CircularProgress size={15} color={'primary'} /> 
+                                                    : 
+                                                    <CircleNotificationsIcon />
+                                                } 
+                                                label={'Kirim Notifikasi'} 
+                                                onClick={() => setOpenPaymentMethod(!openPaymentMethod)} 
+                                                sx={{ ml: 1, mr: 2, cursor: 'pointer' }} />
+                                            <PaymentMethod 
+                                                openPaymentMethod={openPaymentMethod} 
+                                                id={val.id} 
+                                                setOpenPaymentMethod={setOpenPaymentMethod}
+                                                setAlert={setAlert}
+                                                setOrder={setOrder}
+                                                order={order}
+                                            />
+                                        </>
                                     }
                                     <Chip label={label} color={color} />
                                     {data.status === 'expired' &&
@@ -845,7 +921,7 @@ const CollapseComponent = ({id, expanded}) => {
                                         <Box component="span"
                                             sx={{ display: 'inline' }}
                                         >
-                                            {data.payment_method === "transfer" && `${data.payment_method} ke Bank ${data.bank_name.toUpperCase()}`}
+                                            {data.payment_method === "transfer" && `${data.payment_method} ke ${data.bank_name.toUpperCase()}`}
                                             {data.payment_method === "cod" && `Cash On Delivery`}
                                             {data.payment_method === "po" && `Pre-Order`}
                                         </Box>
