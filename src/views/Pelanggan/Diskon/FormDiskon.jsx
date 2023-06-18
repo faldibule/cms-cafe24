@@ -56,8 +56,6 @@ const FormDiskon = () => {
         let y = format(form.date[1], 'yyyy-MM-dd')
         y = `${y} 23:59:59`
 
-        console.log(x)
-        console.log(y)
 
         const formData = new FormData()
         formData.append('type', 'group')
@@ -93,7 +91,6 @@ const FormDiskon = () => {
         .catch(err => {
             if(err.response){
                 setErrors(err.response.data.errors)
-                console.log(err.response)
             }
             setLoading(false)
 

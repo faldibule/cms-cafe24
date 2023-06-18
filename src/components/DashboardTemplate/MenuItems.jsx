@@ -32,6 +32,10 @@ const appMenuItems = [
           name: 'Size Pack',
           link: '/master-data/size',
         },
+        {
+          name: 'Promo Banner',
+          link: '/master-data/promo-banner',
+        },
       ]
     },
 

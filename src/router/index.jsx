@@ -62,6 +62,9 @@ import DetailUserAnda from '../views/Administrasi/DetailUserAnda'
 import FormUserAnda from '../views/Administrasi/FormUserAnda'
 import FormEditStatusPayment from '../views/Order/FormEditStatusPayment'
 import EditTransaksi from '../views/Order/EditTransaksi'
+import PromoBanner from '../views/MasterData/Promo-Banner'
+import AddPromoBanner from '../views/MasterData/Promo-Banner/Add'
+import EditPromoBanner from '../views/MasterData/Promo-Banner/Edit'
 
 function Router() {
     const [auth, setAuth] = useRecoilState(authentication)
@@ -275,6 +278,43 @@ function Router() {
                         </Middleware.Authenticated>
                     } 
                 />
+
+                <Route 
+                    path="/master-data/promo-banner"
+                    element={
+                        <Middleware.Authenticated>
+                            <DashboardTemplate
+                                render={<PromoBanner />} 
+                                title="Promo Banner"
+                            />
+                        </Middleware.Authenticated>
+                    } 
+                />
+
+                <Route 
+                    path="/master-data/promo-banner/add"
+                    element={
+                        <Middleware.Authenticated>
+                            <DashboardTemplate
+                                render={<AddPromoBanner />} 
+                                title="Tambah Promo Banner"
+                            />
+                        </Middleware.Authenticated>
+                    } 
+                />
+
+                <Route 
+                    path="/master-data/promo-banner/edit/:id"
+                    element={
+                        <Middleware.Authenticated>
+                            <DashboardTemplate
+                                render={<EditPromoBanner />} 
+                                title="Edit Promo Banner"
+                            />
+                        </Middleware.Authenticated>
+                    } 
+                />
+
                 
                 {/* Pelanggan */}
                 <Route 

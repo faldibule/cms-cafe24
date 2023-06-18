@@ -132,7 +132,8 @@ function DashboardTemplate(props) {
         position="fixed"
         open={open}
         sx={{ 
-          zIndex: (theme) => theme.zIndex.drawer + 1
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          bgcolor: (theme) => theme.palette.success.light
         }}
       >
         <Toolbar>
