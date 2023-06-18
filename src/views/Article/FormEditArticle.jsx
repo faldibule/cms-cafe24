@@ -61,6 +61,7 @@ const FormArticle = () => {
                 ...form,
                 title: res.data.data.title,
                 type: res.data.data.type,
+                content: res.data.data.content,
                 video_url: res.data.data.video_url
             })
         }
@@ -111,11 +112,11 @@ const FormArticle = () => {
         formData.append('_method', 'put')
         formData.append('type', form.type)
         formData.append('title', form.title)
+        formData.append('content', form.content)
         if(form.type === 'video'){
             formData.append('video_url', form.video_url)
         }
         if(form.type === 'article'){
-            formData.append('content', form.content)
             if(image.image_file !== ''){
                 formData.append('image', image.image_file)
             }
@@ -150,7 +151,6 @@ const FormArticle = () => {
         })
         .catch(err => {
             setLoading(false)
-
             if(err.response){
                 setErrors(err.response.data.errors)
                 if(typeof err.response.data.errors.image !== 'undefined'){
@@ -253,7 +253,10 @@ const FormArticle = () => {
                                 style={{ display: 'none' }}
                             />
                         </Box>
-                        <CKEditor
+                    </Box>
+                    }
+                    
+                    <CKEditor
                             editor={ ClassicEditor }
                             onReady={(editor) => {
                                 uploadAdapterPlugin(editor)
@@ -271,8 +274,6 @@ const FormArticle = () => {
                             } }
                             onChange={ckEditorChange}
                         />
-                    </Box>
-                    }
 
                     <LoadingButton
                         type="submit"

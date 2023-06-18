@@ -24,7 +24,7 @@ const Index = () => {
     const [data, setData] = useState([])
     const [params, setParams] = useState({
         page: 1,
-        limit: 1,
+        limit: 10,
         total: 0
     })
     const [loading, setLoading] = useState(false)

@@ -227,7 +227,7 @@ const Article = () => {
             <Grid container spacing={1}>
                 {article.data.length !== 0 && article.isComplete && !empty &&
                     article.data.map((val, i) => (
-                        <Grid item md={4} xs={12} sm={6} lg={3}>
+                        <Grid key={i} item md={4} xs={12} sm={6} lg={3}>
                             <Card key={i} sx={{ width: '100%', border: 1, borderColor: 'primary.main', m: 2, borderRadius: 2, boxShadow: 3 }}>
                                 {val.type === "article" &&
                                     <CardMedia
