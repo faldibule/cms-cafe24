@@ -609,7 +609,7 @@ const LaporanPenjualan = () => {
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
-                                <TableHead sx={{ backgroundColor: blue[500]}}>
+                                <TableHead sx={{ backgroundColor: green[500]}}>
                                     <TableRow>
                                         <TableCell sx={{ color: 'white'  }}>No</TableCell>
                                         <TableCell sx={{ color: 'white'  }} align="center">Tanggal</TableCell>

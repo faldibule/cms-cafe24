@@ -72,7 +72,7 @@ const FormPelanggan = () => {
         formData.append('phone_number', form.phone_number)
         formData.append('password', form.password)
         formData.append('password_confirmation', form.password_confirmation)
-        formData.append('role', form.role)
+        formData.append('role', 'customer')
         axios.post(`${API}user/create_customer`, formData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
@@ -205,7 +205,7 @@ const FormPelanggan = () => {
                         type={'password'}
                         error={typeof errors?.password !== 'undefined' ? true : false}
                     />
-                    {role.length !== 0 &&
+                    {/* {role.length !== 0 &&
                     <FormControl variant="standard" sx={{ my: 1 }}  
                         fullWidth 
                         error={typeof errors?.role !== 'undefined' ? true : false}
@@ -236,7 +236,7 @@ const FormPelanggan = () => {
                     }
                     {role.length === 0 &&
                         <CircularProgress sx={{ width: 50, display: 'block', my: 2 }} />
-                    }
+                    } */}
 
                     <LoadingButton
                         type="submit"

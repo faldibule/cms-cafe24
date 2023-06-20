@@ -394,7 +394,7 @@ const FormEditPelanggan = () => {
     const onSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
-        axios.put(`${API}user/update/${id}?name=${form.name}&phone_number=${form.phone_number}&role=${form.role}&status=${form.status}`, {}, {
+        axios.put(`${API}user/update/${id}?name=${form.name}&phone_number=${form.phone_number}&role=customer&status=${form.status}`, {}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
@@ -511,7 +511,7 @@ const FormEditPelanggan = () => {
                     }
 
                     {/* role */}
-                    {role.length !== 0 &&
+                    {/* {role.length !== 0 &&
                     <FormControl variant="standard" sx={{ my: 2 }}  
                         fullWidth 
                         error={typeof errors?.role !== 'undefined' ? true : false}
@@ -542,7 +542,7 @@ const FormEditPelanggan = () => {
                     }
                     {role.length === 0 &&
                         <CircularProgress sx={{ width: 50, display: 'block', my: 2 }} />
-                    }
+                    } */}
 
                     {/* status */}
                     {form.status !== null &&
@@ -597,7 +597,7 @@ const FormEditPelanggan = () => {
                 <AlertSuccess message={alert.message} onTutup={()=> setAlert({message: '', display: false})} display={alert.display} />
                 <TableContainer sx={{ mt: 1 }} component={Paper}>
                     <Table sx={{ minWidth: '100%' }} aria-label="simple table">
-                        <TableHead sx={{ backgroundColor: blue[500]}}>
+                        <TableHead sx={{ backgroundColor: green[500]}}>
                             <TableRow>
                                 <TableCell sx={{ color: 'white'  }}>No</TableCell>
                                 <TableCell sx={{ color: 'white'  }} align="center">Kategori</TableCell>

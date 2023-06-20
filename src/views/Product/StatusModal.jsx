@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, FormGroup, FormControlLabel, Switch, Button, CircularProgress, TextField, Dialog, DialogTitle, DialogContent, DialogActions, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody,  } from '@mui/material'
-import { blue } from '@mui/material/colors'
+import { blue, green } from '@mui/material/colors'
 import { useRecoilState } from 'recoil'
 import { API } from '../../Variable/API'
 import axios from 'axios'
@@ -810,7 +810,7 @@ const StatusModal = (props) => {
                                     {variantCount.length !== 0 && variantCount.some(s => s === 'i') && JSON.stringify(variantSub) !== '{}' &&
                                     <TableContainer sx={{ mt: 1 }} component={Paper}>
                                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                                            <TableHead sx={{ backgroundColor: blue[500]}}>
+                                            <TableHead sx={{ backgroundColor: green[500]}}>
                                                 <TableRow>
                                                     <TableCell sx={{ color: 'white'  }} align="center">Variant 1</TableCell>
                                                     {variantCount.filter(filter => filter === 'i').length > 1 && 

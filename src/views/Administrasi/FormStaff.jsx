@@ -27,7 +27,7 @@ const FormStaff = () => {
         phone_number: '',
         password_confirmation: '',
         password: '',
-        role: ''
+        role: 'admin'
     })
 
     const setDataRole = () => {
@@ -92,7 +92,7 @@ const FormStaff = () => {
         .catch(err => {
             if(err.response){
                 setLoading(false)
-                // console.log(err.response)
+                console.log(err.response)
                 setErrors(err.response.data.errors)
             }
         })
@@ -195,7 +195,7 @@ const FormStaff = () => {
                         helperText={typeof errors?.password !== 'undefined' ? <span style={{color: 'red'}}>{errors.password[0]}</span> : ''}
                         error={typeof errors?.password !== 'undefined' ? true : false}
                     />
-                    {role.length !== 0 &&
+                    {/* {role.length !== 0 &&
                     <FormControl variant="standard" sx={{ my: 1 }}  
                         fullWidth 
                         error={typeof errors?.role !== 'undefined' ? true : false}
@@ -226,7 +226,7 @@ const FormStaff = () => {
                     }
                     {role.length === 0 &&
                         <CircularProgress sx={{ width: 50, display: 'block', my: 2 }} />
-                    }
+                    } */}
 
                     <LoadingButton
                         type="submit"

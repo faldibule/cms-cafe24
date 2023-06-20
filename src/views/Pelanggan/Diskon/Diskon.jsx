@@ -50,7 +50,7 @@ const Diskon = () => {
             {role.length !== 0 &&
             <TableContainer sx={{ mt: 1 }} component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                    <TableHead sx={{ backgroundColor: blue[500]}}>
+                    <TableHead sx={{ backgroundColor: green[500]}}>
                         <TableRow>
                             <TableCell sx={{ color: 'white'  }}>No</TableCell>
                             <TableCell sx={{ color: 'white'  }} align="center">Nama Group</TableCell>
@@ -60,6 +60,7 @@ const Diskon = () => {
                     <TableBody>
                         {role.map((val, i) => {
                             if(val.id !== 1 && val.id !== 2 && val.id !== 3){
+                                if(val.name !== 'customer') return;
                                 number.current = number.current + 1
                                 return (
                                     <TableRow key={val.id}>

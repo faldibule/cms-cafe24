@@ -44,10 +44,15 @@ export const formKategoriStyle = makeStyles((theme) => (
             cursor: 'pointer'
         },
         buttonAdd: {
+            color: '#eee',
+            backgroundColor: '#4CAF50',
             margin: '10px 0',
             width: '300px',
             borderRadius: 25,
-        }
+            '&:hover': {
+                backgroundColor: '#43a047'
+            }
+        },
 
     }
 ))

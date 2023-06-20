@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, FormGroup, FormControlLabel, Switch, Paper, Chip, Button, FormHelperText, CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Stack } from '@mui/material'
-import {  blue } from '@mui/material/colors';
+import {  blue, green } from '@mui/material/colors';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { kategoriParent } from '../../Recoil/Kategori';
 import { API } from '../../Variable/API'
@@ -1011,7 +1011,7 @@ const AddProduct = () => {
             {variantCount.length !== 0 && variantCount.some(s => s === 'i') && JSON.stringify(variantSub) !== '{}' &&
             <TableContainer sx={{ mt: 1 }} component={Paper}>
               <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                  <TableHead sx={{ backgroundColor: blue[500]}}>
+                  <TableHead sx={{ backgroundColor: green[500]}}>
                       <TableRow>
                           <TableCell sx={{ color: 'white'  }} align="center">Variant 1</TableCell>
                           {variantCount.filter(filter => filter === 'i').length > 1 && 

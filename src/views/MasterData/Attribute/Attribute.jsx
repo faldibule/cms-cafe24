@@ -111,7 +111,7 @@ const Attribute = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Button onClick={() => history(`/master-data/attr_parent/add`) } size='small' sx={{ my: 2, p:1, maxWidth: 300, borderRadius: 25 }} variant="contained">
+            <Button onClick={() => history(`/master-data/attr_parent/add`) } size='small' className={classes.buttonAdd} variant="contained">
                 <AddBoxIcon  /> Tambah Attribute
             </Button>
             <Box component='div' sx={{ mt: 1, display: deleteLoading  }} >
@@ -123,7 +123,7 @@ const Attribute = () => {
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 500 }} aria-label="simple table">
                             <TableHead >
-                                <TableRow sx={{backgroundColor: blue[500]}}>
+                                <TableRow sx={{backgroundColor: green[500]}}>
                                     <TableCell sx={{ fontSize: '1.1rem', width: '10%', color: 'white' }} align="center">No</TableCell>
                                     <TableCell sx={{ fontSize: '1.1rem', width: '10%', color: 'white' }} align="center">Name</TableCell>
                                     <TableCell sx={{ fontSize: '1.1rem', width: '70%', color: 'white' }} align="center">Options</TableCell>

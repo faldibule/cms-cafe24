@@ -816,7 +816,7 @@ const CollapseComponent = ({id, expanded}) => {
                                 >
                                     <ListItemAvatar>
                                         <Avatar sx={{ backgroundColor: grey[200] }}>
-                                            <DescriptionIcon sx={{ color: blue[500] }} />
+                                            <DescriptionIcon sx={{ color: green[500] }} />
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
@@ -870,7 +870,7 @@ const CollapseComponent = ({id, expanded}) => {
                         >
                             <ListItemAvatar>
                                 <Avatar sx={{ backgroundColor: grey[200] }}>
-                                    <DescriptionIcon sx={{ color: blue[500] }} />
+                                    <DescriptionIcon sx={{ color: green[500] }} />
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
@@ -887,7 +887,7 @@ const CollapseComponent = ({id, expanded}) => {
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar sx={{ backgroundColor: grey[200] }}>
-                                    <HomeIcon sx={{ color: blue[500] }} />
+                                    <HomeIcon sx={{ color: green[500] }} />
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
@@ -899,7 +899,7 @@ const CollapseComponent = ({id, expanded}) => {
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar sx={{ backgroundColor: grey[200] }}>
-                                    <LocalShippingIcon sx={{ color: blue[500] }} />
+                                    <LocalShippingIcon sx={{ color: green[500] }} />
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
@@ -911,7 +911,7 @@ const CollapseComponent = ({id, expanded}) => {
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
                                 <Avatar sx={{ backgroundColor: grey[200] }}>
-                                    <PaymentIcon sx={{ color: blue[500] }} />
+                                    <PaymentIcon sx={{ color: green[500] }} />
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText

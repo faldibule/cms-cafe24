@@ -273,7 +273,7 @@ const Pelanggan = () => {
             
             <TableContainer sx={{ mt: 1 }} component={Paper}>
                 <Table sx={{ minWidth: 500 }} aria-label="simple table">
-                    <TableHead sx={{ backgroundColor: blue[500]}}>
+                    <TableHead sx={{ backgroundColor: green[500]}}>
                         <TableRow>
                             <TableCell sx={{ color: 'white'  }}>No</TableCell>
                             <TableCell sx={{ color: 'white'  }} align="center">Nama</TableCell>

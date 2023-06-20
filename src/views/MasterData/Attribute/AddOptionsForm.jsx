@@ -225,7 +225,7 @@ const AddOptionsForm = () => {
                 </Typography>
                 <TableContainer sx={{ minWidth: 650, maxHeight: '65vh', overflowY: 'auto', overflowX: 'hidden' }} component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                        <TableHead sx={{ backgroundColor: blue[500]}}>
+                        <TableHead sx={{ backgroundColor: green[500]}}>
                             <TableRow>
                                 <TableCell sx={{ color: 'white'  }} align="center">No</TableCell>
                                 <TableCell sx={{ color: 'white'  }} align="center">Name</TableCell>

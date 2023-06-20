@@ -38,6 +38,17 @@ export const AttributeStyle = makeStyles(theme => ({
         fontSize: '0.65rem',
         borderRadius: 25,
     },
+    buttonAdd: {
+        color: '#eee',
+        backgroundColor: '#4CAF50',
+        my: 2, 
+        p:1, 
+        maxWidth: 300, 
+        borderRadius: 25,
+        '&:hover': {
+            backgroundColor: '#43a047'
+        }
+    },
 
     //parentform style
     form: {

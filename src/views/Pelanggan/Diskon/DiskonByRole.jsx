@@ -151,7 +151,7 @@ const DiskonByRole = () => {
                 <AlertSuccess message={alert.message} onTutup={()=> setAlert({message: '', display: false})} display={alert.display} />
                 <TableContainer sx={{ mt: 1 }} component={Paper}>
                     <Table sx={{ minWidth: '100%' }} aria-label="simple table">
-                        <TableHead sx={{ backgroundColor: blue[500]}}>
+                        <TableHead sx={{ backgroundColor: green[500]}}>
                             <TableRow>
                                 <TableCell sx={{ color: 'white'  }}>No</TableCell>
                                 <TableCell sx={{ color: 'white'  }} align="center">Kategori</TableCell>

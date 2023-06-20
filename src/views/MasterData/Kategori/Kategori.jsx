@@ -170,7 +170,7 @@ const Kategori = () => {
                     <Button className={classes.buttonAdd} variant="contained" onClick={() => history('/master-data/kategori/form') }><AddBoxIcon /> Tambah Kategori Baru</Button>
                     <TableContainer sx={{ minWidth: 600 }} component={Paper}>
                         <Table sx={{ minWidth: 600 }} aria-label="simple table">
-                            <TableHead sx={{ backgroundColor: blue[500]}}>
+                            <TableHead sx={{ backgroundColor: green[500]}}>
                                 <TableRow>
                                     <TableCell sx={{ color: 'white'  }}>No</TableCell>
                                     <TableCell sx={{ color: 'white'  }} align="center">Name</TableCell>

@@ -106,7 +106,7 @@ const FormEditStaff = () => {
     const onSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
-        axios.put(`${API}user/update/${id}?name=${form.name}&phone_number=${form.phone_number}&role=${form.role}&status=${form.status}`, {}, {
+        axios.put(`${API}user/update/${id}?name=${form.name}&phone_number=${form.phone_number}&role=admin&status=${form.status}`, {}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
@@ -209,7 +209,7 @@ const FormEditStaff = () => {
                         />
                     </Box>
                     {/* role */}
-                    {role.length !== 0 &&
+                    {/* {role.length !== 0 &&
                     <FormControl variant="standard" sx={{ my: 1 }}  
                         fullWidth 
                         error={typeof errors?.role !== 'undefined' ? true : false}
@@ -240,7 +240,7 @@ const FormEditStaff = () => {
                     }
                     {role.length === 0 &&
                         <CircularProgress sx={{ width: 50, display: 'block', my: 2 }} />
-                    }
+                    } */}
 
                     {/* status */}
                     {form.status !== null &&
