@@ -77,7 +77,7 @@ const EditProduct = () => {
         tinggi: '',
         berat: null,
         preorder: null,
-        category_parent: '1',
+        category_parent: '',
         category_child: null,
         diskon: '',
         discount_type: '',
